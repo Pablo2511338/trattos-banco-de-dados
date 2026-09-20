@@ -35,6 +35,49 @@ Além disso, sua operação envolve diferentes processos e informações relacio
 As evidências da organização serão complementadas com registros da pesquisa de campo, endereço, forma de contato e demais informações públicas ou obtidas diretamente com a empresa.
 ## 2. Processos de Negócio
 
+### 2.1 Cadastro e ingresso de representantes
+
+A Trattos trabalha com representantes em sistema multinível. O ingresso do representante ocorre por meio da aquisição de um kit inicial convertido em produtos.
+
+Após o cadastro, o representante passa a possuir informações associadas ao seu nível, plano, percentual de comissão e condições comerciais.
+
+### 2.2 Emissão e acompanhamento de pedidos
+
+Os pedidos são emitidos por meio do sistema interno da empresa.
+
+Após a emissão, os produtos são separados e podem ser retirados pelo representante ou enviados.
+
+Cada pedido registra informações como número do pedido, código do representante, itens, quantidade, valor unitário, lote, validade, desconto, percentual de comissão, frete e data.
+
+### 2.3 Controle de estoque e lotes
+
+A entrada de produtos é registrada no estoque da empresa.
+
+Cada lote possui informações como número do lote, data de fabricação e data de validade.
+
+A Trattos utiliza o princípio de priorizar a saída dos lotes mais antigos.
+
+Quando um pedido é emitido, ocorre a baixa correspondente no estoque.
+
+### 2.4 Reposição de estoque e fornecedores
+
+A necessidade de reposição é identificada por relatórios semanais ou alertas de estoque baixo.
+
+Com base nas saídas dos produtos, a empresa realiza pedidos aos fornecedores e faz estimativas mensais para reposição.
+
+### 2.5 Pagamentos e comunicação
+
+A Trattos utiliza um sistema interno para controle de pedidos e estoque.
+
+Também utiliza a plataforma Bling para emissão de notas fiscais e WhatsApp para comunicação com representantes, pedidos e envio de comprovantes de pagamento.
+
+### 2.6 Gestão de comissões
+
+A gestão de comissões é um dos principais processos da empresa.
+
+Atualmente, o pagamento de comissões ocorre de forma semiautomatizada.
+
+A proposta de melhoria envolve permitir que o representante acompanhe suas comissões, as comissões de sua equipe, sua produção e utilize o saldo de comissões para compra de produtos.
 ## 3. Requisitos do Sistema
 
 ### 3.1 Requisitos Funcionais
