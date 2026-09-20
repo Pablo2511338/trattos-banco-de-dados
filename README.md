@@ -82,6 +82,34 @@ A proposta de melhoria envolve permitir que o representante acompanhe suas comis
 
 ### 3.1 Requisitos Funcionais
 
+- **RF01 — Cadastrar clientes:** o sistema deve permitir que representantes cadastrem clientes.
+- **RF02 — Consultar clientes:** o sistema deve permitir consultar os clientes cadastrados.
+- **RF03 — Pesquisar e filtrar clientes:** o sistema deve permitir localizar clientes utilizando diferentes critérios de busca.
+- **RF04 — Editar dados de clientes:** o sistema deve permitir alterar informações dos clientes cadastrados.
+- **RF05 — Registrar pedidos:** o sistema deve permitir criar pedidos.
+- **RF06 — Adicionar e remover itens do pedido:** o sistema deve permitir incluir ou retirar produtos durante a criação do pedido.
+- **RF07 — Consultar pedidos:** o sistema deve permitir acompanhar os pedidos realizados.
+- **RF08 — Consultar estoque:** o sistema deve permitir consultar a disponibilidade dos produtos.
+- **RF09 — Registrar pagamentos:** o sistema deve permitir registrar pagamentos relacionados às operações realizadas.
+- **RF10 — Consultar histórico de pagamentos:** o sistema deve manter e permitir consultar o histórico dos pagamentos.
+- **RF11 — Consultar comissões:** o representante deve conseguir visualizar suas comissões.
+- **RF12 — Consultar desempenho da equipe:** o sistema deve permitir visualizar informações de produção e desempenho da equipe.
+- **RF13 — Consultar comissões da equipe:** o sistema deve permitir ao representante acompanhar comissões relacionadas ao seu grupo.
+- **RF14 — Utilizar comissões em compras:** o sistema deve permitir utilizar saldo de comissão na aquisição de produtos.
+
+### 3.2 Requisitos Não Funcionais
+
+- **RNF01 — Segurança:** os dados de clientes, representantes e pagamentos devem ser protegidos contra acessos não autorizados.
+- **RNF02 — Controle de acesso:** cada usuário deve acessar somente as informações e funções permitidas ao seu perfil.
+- **RNF03 — Desempenho:** consultas, buscas e operações comuns devem possuir tempo de resposta adequado para uso diário.
+- **RNF04 — Usabilidade:** buscas, filtros e funções principais devem possuir interface simples e intuitiva.
+- **RNF05 — Integridade dos dados:** alterações realizadas no sistema devem ser armazenadas corretamente e refletidas nas consultas.
+- **RNF06 — Consistência do estoque:** as informações de estoque devem permanecer atualizadas após entradas e saídas.
+- **RNF07 — Precisão financeira:** valores de pagamentos e comissões devem ser apresentados corretamente.
+- **RNF08 — Persistência do histórico:** registros financeiros necessários para consulta e controle não devem ser perdidos indevidamente.
+
+### 3.1 Requisitos Funcionais
+
 ### 3.2 Requisitos Não Funcionais
 
 ## 4. Regras de Negócio
