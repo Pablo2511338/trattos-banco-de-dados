@@ -189,24 +189,87 @@ A proposta de melhoria envolve permitir que o representante acompanhe suas comis
 
 ## 5. Dicionário de Dados Conceitual
 
-O Dicionário de Dados Conceitual está em desenvolvimento com base nas entidades identificadas no DER.
+O Dicionário de Dados Conceitual apresenta os atributos identificados até o momento para cada entidade do modelo. Esta versão é preliminar e poderá receber ajustes após a validação das informações pendentes junto à organização.
 
-Até o momento, foram identificadas as seguintes entidades:
+### Entidade: REPRESENTANTE
 
-- REPRESENTANTE
-- CLIENTE
-- PEDIDO
-- ITEM_PEDIDO
-- PRODUTO
-- LOTE
-- PAGAMENTO
-- COMISSAO
-- FORNECEDOR
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_representante | Identificador único do representante no sistema | Obrigatório e único |
+| codigo_representante | Código utilizado para identificar o representante nas operações da empresa | Deve estar associado ao representante correspondente |
+| endereco | Endereço cadastrado do representante | Informação pertencente ao cadastro do representante |
+| estado_civil | Estado civil informado no cadastro | Informação pertencente ao cadastro do representante |
+| idade | Idade registrada para o representante | Informação pertencente ao cadastro do representante |
+| nivel | Nível atual do representante no sistema multinível | Pode ser alterado conforme as regras e metas definidas pela empresa |
+| plano | Plano atualmente associado ao representante | Deve representar o plano vigente do representante |
+| percentual_comissao | Percentual de comissão atualmente associado ao representante | Utilizado no processo de cálculo e acompanhamento das comissões |
 
-O documento completo será disponibilizado também em HTML na pasta `dicionario` do repositório.
+### Entidade: CLIENTE
 
----
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_cliente | Identificador único do cliente | Obrigatório e único |
 
+**Observação:** os demais atributos de CLIENTE serão definidos após validação com a organização sobre quais informações devem ser cadastradas pelos representantes.
+
+### Entidade: PEDIDO
+
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_pedido | Identificador único interno do pedido | Obrigatório e único |
+| numero_pedido | Número utilizado para identificar o pedido na operação | Deve identificar o pedido correspondente |
+| data | Data em que o pedido foi registrado | Deve representar a data da operação |
+| frete | Valor relacionado ao envio do pedido | Aplicável quando houver cobrança de frete |
+
+### Entidade: ITEM_PEDIDO
+
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_item | Identificador único do item do pedido | Obrigatório e único |
+| quantidade | Quantidade do produto incluída no pedido | Deve representar a quantidade solicitada daquele produto |
+| valor_unitario | Valor unitário aplicado ao produto no pedido | Deve registrar o valor utilizado naquela operação |
+| desconto_item | Desconto aplicado ao item do pedido | Deve registrar o desconto utilizado no item |
+| percentual_comissao | Percentual de comissão relacionado ao item | Utilizado no controle das comissões associadas à operação |
+
+### Entidade: PRODUTO
+
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_produto | Identificador único do produto | Obrigatório e único |
+| nome | Nome utilizado para identificar comercialmente o produto | Deve representar um produto comercializado pela Trattos |
+
+### Entidade: LOTE
+
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_lote | Identificador único do lote | Obrigatório e único |
+| numero_lote | Número utilizado pela empresa para identificar o lote | Cada lote deve possuir identificação correspondente |
+| data_fabricacao | Data de fabricação do lote | Utilizada no controle do lote |
+| data_validade | Data de validade do lote | Utilizada no controle de validade e na separação dos produtos |
+
+### Entidade: PAGAMENTO
+
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_pagamento | Identificador único do pagamento | Obrigatório e único |
+
+**Observação:** os demais atributos e relacionamentos de PAGAMENTO serão definidos após a validação de como os pagamentos são associados aos pedidos.
+
+### Entidade: COMISSAO
+
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_comissao | Identificador único do registro de comissão | Obrigatório e único |
+
+**Observação:** os demais atributos serão definidos após a validação das regras de geração e distribuição das comissões no sistema multinível.
+
+### Entidade: FORNECEDOR
+
+| Atributo | Descrição | Regra de negócio associada |
+|----------|-----------|-----------------------------|
+| id_fornecedor | Identificador único do fornecedor | Obrigatório e único |
+
+**Observação:** os demais atributos e a relação entre fornecedor e produto serão finalizados após validação com a organização.
 ## 6. Modelagem Conceitual
 
 ### Entidades reconhecidas
