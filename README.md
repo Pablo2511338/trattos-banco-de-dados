@@ -4,6 +4,35 @@
 
 ## 1. Caracterização da Organização
 
+### Nome e natureza da organização
+
+A organização escolhida pelo grupo é a **Trattos**, empresa que atua com suplementos alimentares funcionais voltados aos cuidados com a saúde e qualidade de vida.
+
+Entre os produtos comercializados estão colágeno hidrolisado, cálcio e magnésio, levedo de cerveja, Allium e pólen apícola, entre outros.
+
+A empresa trabalha comercialmente com **representantes em sistema multinível**, que fazem a ligação entre a Trattos e seus respectivos clientes.
+
+### Contexto e porte
+
+Segundo o levantamento realizado diretamente com a organização, atualmente a operação conta com aproximadamente **duas pessoas**, sendo uma responsável pelas atividades operacionais, técnicas e administrativas e outra voltada ao atendimento aos representantes e às vendas.
+
+O representante ingressa no sistema através da aquisição de um kit inicial convertido em produtos. Nas compras posteriores, possui uma faixa de desconto definida e pode avançar de nível conforme metas estabelecidas pela organização.
+
+### Problemas e necessidades identificados
+
+A principal dificuldade identificada durante a pesquisa de campo está relacionada ao **pagamento das comissões**, que atualmente ocorre de forma semiautomatizada.
+
+A empresa demonstrou interesse na criação de um **Escritório Virtual para os representantes**, permitindo cadastrar clientes, emitir e acompanhar pedidos, consultar pagamentos, acompanhar comissões próprias e da equipe, visualizar produção e utilizar saldo de comissão na compra de produtos.
+
+### Justificativa da escolha
+
+A Trattos foi escolhida por ser uma organização real à qual o grupo possui acesso direto para levantamento de informações.
+
+Além disso, sua operação envolve diferentes processos e informações relacionadas a representantes, clientes, pedidos, produtos, estoque, lotes, pagamentos, fornecedores e comissões, tornando a organização adequada para aplicação dos conceitos de modelagem de banco de dados.
+
+### Evidências da organização
+
+As evidências da organização serão complementadas com registros da pesquisa de campo, endereço, forma de contato e demais informações públicas ou obtidas diretamente com a empresa.
 ## 2. Processos de Negócio
 
 ## 3. Requisitos do Sistema
