@@ -107,11 +107,6 @@ A proposta de melhoria envolve permitir que o representante acompanhe suas comis
 - **RNF06 — Consistência do estoque:** as informações de estoque devem permanecer atualizadas após entradas e saídas.
 - **RNF07 — Precisão financeira:** valores de pagamentos e comissões devem ser apresentados corretamente.
 - **RNF08 — Persistência do histórico:** registros financeiros necessários para consulta e controle não devem ser perdidos indevidamente.
-
-### 3.1 Requisitos Funcionais
-
-### 3.2 Requisitos Não Funcionais
-
 ## 4. Regras de Negócio
 
 ## 5. Dicionário de Dados Conceitual
