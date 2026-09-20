@@ -111,6 +111,231 @@
             <td>Utilizado no processo de cálculo e acompanhamento das comissões.</td>
         </tr>
     </table>
+    <h2>Entidade: CLIENTE</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_cliente</td>
+            <td>Identificador único do cliente.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+    </table>
+
+    <p class="observacao">
+        <strong>Observação:</strong> os demais atributos de CLIENTE serão
+        definidos após validação com a organização sobre quais informações
+        devem ser cadastradas pelos representantes.
+    </p>
+
+
+    <h2>Entidade: PEDIDO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_pedido</td>
+            <td>Identificador único interno do pedido.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td>numero_pedido</td>
+            <td>Número utilizado para identificar o pedido na operação.</td>
+            <td>Deve identificar o pedido correspondente.</td>
+        </tr>
+
+        <tr>
+            <td>data</td>
+            <td>Data em que o pedido foi registrado.</td>
+            <td>Deve representar a data da operação.</td>
+        </tr>
+
+        <tr>
+            <td>frete</td>
+            <td>Valor relacionado ao envio do pedido.</td>
+            <td>Aplicável quando houver cobrança de frete.</td>
+        </tr>
+    </table>
+
+
+    <h2>Entidade: ITEM_PEDIDO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_item</td>
+            <td>Identificador único do item do pedido.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td>quantidade</td>
+            <td>Quantidade do produto incluída no pedido.</td>
+            <td>Deve representar a quantidade solicitada daquele produto.</td>
+        </tr>
+
+        <tr>
+            <td>valor_unitario</td>
+            <td>Valor unitário aplicado ao produto no pedido.</td>
+            <td>Deve registrar o valor utilizado naquela operação.</td>
+        </tr>
+
+        <tr>
+            <td>desconto_item</td>
+            <td>Desconto aplicado ao item do pedido.</td>
+            <td>Deve registrar o desconto utilizado no item.</td>
+        </tr>
+
+        <tr>
+            <td>percentual_comissao</td>
+            <td>Percentual de comissão relacionado ao item.</td>
+            <td>Utilizado no controle das comissões associadas à operação.</td>
+        </tr>
+    </table>
+
+
+    <h2>Entidade: PRODUTO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_produto</td>
+            <td>Identificador único do produto.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td>nome</td>
+            <td>Nome utilizado para identificar comercialmente o produto.</td>
+            <td>Deve representar um produto comercializado pela Trattos.</td>
+        </tr>
+    </table>
+
+
+    <h2>Entidade: LOTE</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_lote</td>
+            <td>Identificador único do lote.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td>numero_lote</td>
+            <td>Número utilizado pela empresa para identificar o lote.</td>
+            <td>Cada lote deve possuir identificação correspondente.</td>
+        </tr>
+
+        <tr>
+            <td>data_fabricacao</td>
+            <td>Data de fabricação do lote.</td>
+            <td>Utilizada no controle do lote.</td>
+        </tr>
+
+        <tr>
+            <td>data_validade</td>
+            <td>Data de validade do lote.</td>
+            <td>Utilizada no controle de validade e na separação dos produtos.</td>
+        </tr>
+    </table>
+
+
+    <h2>Entidade: PAGAMENTO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_pagamento</td>
+            <td>Identificador único do pagamento.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+    </table>
+
+    <p class="observacao">
+        <strong>Observação:</strong> os demais atributos de PAGAMENTO
+        serão definidos após a validação de como os pagamentos são
+        associados aos pedidos.
+    </p>
+
+
+    <h2>Entidade: COMISSAO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_comissao</td>
+            <td>Identificador único do registro de comissão.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+    </table>
+
+    <p class="observacao">
+        <strong>Observação:</strong> os demais atributos de COMISSAO
+        serão definidos após a validação das regras de geração e
+        distribuição das comissões no sistema multinível.
+    </p>
+
+
+    <h2>Entidade: FORNECEDOR</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_fornecedor</td>
+            <td>Identificador único do fornecedor.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+    </table>
+
+    <p class="observacao">
+        <strong>Observação:</strong> os demais atributos e a relação
+        entre FORNECEDOR e PRODUTO serão finalizados após validação
+        com a organização.
+    </p>
 
 </body>
 </html>
+
