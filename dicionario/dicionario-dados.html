@@ -2,16 +2,115 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Dicionário de Dados - Trattos</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .observacao {
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Dicionário de Dados Conceitual - Trattos</h1>
+    <h1>Dicionário de Dados Conceitual — Trattos</h1>
 
     <p>
-        Este documento apresenta os atributos das entidades identificadas
-        no modelo conceitual da Trattos.
+        Este documento apresenta os atributos identificados para cada
+        entidade do modelo conceitual da Trattos.
     </p>
+
+    <h2>Entidade: REPRESENTANTE</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td>id_representante</td>
+            <td>Identificador único do representante no sistema.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td>codigo_representante</td>
+            <td>Código utilizado para identificar o representante nas operações da empresa.</td>
+            <td>Deve estar associado ao representante correspondente.</td>
+        </tr>
+
+        <tr>
+            <td>endereco</td>
+            <td>Endereço cadastrado do representante.</td>
+            <td>Informação pertencente ao cadastro do representante.</td>
+        </tr>
+
+        <tr>
+            <td>estado_civil</td>
+            <td>Estado civil informado no cadastro.</td>
+            <td>Informação pertencente ao cadastro do representante.</td>
+        </tr>
+
+        <tr>
+            <td>idade</td>
+            <td>Idade registrada para o representante.</td>
+            <td>Informação pertencente ao cadastro do representante.</td>
+        </tr>
+
+        <tr>
+            <td>nivel</td>
+            <td>Nível atual do representante no sistema multinível.</td>
+            <td>Pode ser alterado conforme as regras e metas definidas pela empresa.</td>
+        </tr>
+
+        <tr>
+            <td>plano</td>
+            <td>Plano atualmente associado ao representante.</td>
+            <td>Deve representar o plano vigente do representante.</td>
+        </tr>
+
+        <tr>
+            <td>percentual_comissao</td>
+            <td>Percentual de comissão atualmente associado ao representante.</td>
+            <td>Utilizado no processo de cálculo e acompanhamento das comissões.</td>
+        </tr>
+    </table>
 
 </body>
 </html>
