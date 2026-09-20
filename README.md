@@ -109,6 +109,38 @@ A proposta de melhoria envolve permitir que o representante acompanhe suas comis
 - **RNF08 — Persistência do histórico:** registros financeiros necessários para consulta e controle não devem ser perdidos indevidamente.
 ## 4. Regras de Negócio
 
+### Regras operacionais
+
+- **RN01 — Ingresso de representantes:** o ingresso de um representante no sistema ocorre por meio da aquisição de um kit inicial convertido em produtos.
+
+- **RN02 — Condição de desconto:** após o ingresso, o representante possui uma faixa inicial de desconto nas compras e pode alcançar uma faixa maior ao atingir a meta estabelecida pela empresa.
+
+- **RN03 — Identificação dos pedidos:** cada pedido deve estar associado ao representante responsável pela operação.
+
+- **RN04 — Composição do pedido:** um pedido pode conter diferentes produtos, sendo necessário registrar a quantidade, valor unitário, desconto e percentual de comissão de cada item.
+
+- **RN05 — Baixa de estoque:** a emissão de um pedido provoca a baixa correspondente dos produtos no estoque.
+
+- **RN06 — Controle por lote:** os produtos em estoque devem ser controlados por lote, incluindo número do lote, data de fabricação e data de validade.
+
+- **RN07 — Prioridade de saída:** durante a separação dos produtos, devem ser priorizados os lotes mais antigos disponíveis.
+
+- **RN08 — Reposição de estoque:** a necessidade de reposição pode ser identificada por relatórios semanais ou alertas de estoque baixo, utilizando as saídas dos produtos como referência para a compra.
+
+- **RN09 — Retirada ou envio:** após a separação, o pedido pode ser retirado pelo representante ou encaminhado para envio.
+
+- **RN10 — Gestão de comissões:** o representante deve possuir informações relacionadas às suas comissões e à produção de sua equipe.
+
+- **RN11 — Utilização de comissão:** o saldo de comissão poderá ser utilizado na compra de produtos, conforme o funcionamento definido pela empresa.
+
+### Restrições organizacionais
+
+- A empresa trabalha com representantes em sistema multinível.
+- O estoque possui controle por lotes e validade.
+- A operação de pedidos e estoque utiliza sistema interno.
+- A emissão de notas fiscais é realizada por meio da plataforma Bling.
+- O WhatsApp também é utilizado na comunicação com representantes e no envio de comprovantes de pagamento.
+- O processo de pagamento de comissões é atualmente semiautomatizado e foi identificado como uma das principais necessidades de melhoria.
 ## 5. Dicionário de Dados Conceitual
 
 ## 6. Modelagem Conceitual
