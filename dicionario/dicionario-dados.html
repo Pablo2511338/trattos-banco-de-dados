@@ -4,43 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dicionário de Dados - Trattos</title>
+    <title>Dicionário de Dados Conceitual - Trattos</title>
 
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             max-width: 1200px;
             margin: 40px auto;
-            padding: 0 20px;
+            padding: 0 20px 60px;
             line-height: 1.6;
+            color: #222;
+            background-color: #ffffff;
         }
 
         h1 {
             text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #666;
+            margin-top: 0;
+            margin-bottom: 35px;
         }
 
         h2 {
-            margin-top: 40px;
+            margin-top: 45px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        h3 {
+            margin-top: 30px;
+        }
+
+        p {
+            margin-bottom: 18px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin: 15px 0 30px;
         }
 
         th, td {
-            border: 1px solid #999;
+            border: 1px solid #aaa;
             padding: 10px;
             text-align: left;
+            vertical-align: top;
         }
 
         th {
+            background-color: #f2f2f2;
             font-weight: bold;
         }
 
+        code {
+            font-family: Consolas, "Courier New", monospace;
+        }
+
         .observacao {
-            margin-bottom: 30px;
+            margin: 25px 0;
+            padding: 15px;
+            border-left: 4px solid #999;
+            background-color: #fafafa;
+        }
+
+        @media (max-width: 800px) {
+            body {
+                margin: 20px auto;
+                padding: 0 12px 40px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -49,10 +93,27 @@
 
     <h1>Dicionário de Dados Conceitual — Trattos</h1>
 
-    <p>
-        Este documento apresenta os atributos identificados para cada
-        entidade do modelo conceitual da Trattos.
+    <p class="subtitulo">
+        Entrega 1 — Modelo Conceitual (DER)
     </p>
+
+    <p>
+        Este documento descreve as entidades, atributos e atributos de
+        relacionamentos identificados no modelo conceitual da Trattos.
+        O conteúdo foi elaborado de acordo com o levantamento realizado
+        junto à organização e com o Diagrama Entidade-Relacionamento final.
+    </p>
+
+    <div class="observacao">
+        <strong>Privacidade:</strong>
+        este dicionário não utiliza exemplos contendo dados pessoais reais
+        de clientes, representantes ou responsáveis pela organização.
+        Caso sejam necessários exemplos em etapas futuras, deverão ser
+        utilizados somente dados fictícios.
+    </div>
+
+
+    <!-- REPRESENTANTE -->
 
     <h2>Entidade: REPRESENTANTE</h2>
 
@@ -64,53 +125,51 @@
         </tr>
 
         <tr>
-            <td>id_representante</td>
-            <td>Identificador único do representante no sistema.</td>
-            <td>Obrigatório e único.</td>
+            <td><code>id_representante</code></td>
+            <td>Identificador único do representante.</td>
+            <td>Obrigatório e único para cada representante.</td>
         </tr>
 
         <tr>
-            <td>codigo_representante</td>
-            <td>Código utilizado para identificar o representante nas operações da empresa.</td>
+            <td><code>nome</code></td>
+            <td>Nome do representante.</td>
+            <td>Utilizado para identificação e consulta.</td>
+        </tr>
+
+        <tr>
+            <td><code>cpf</code></td>
+            <td>CPF do representante.</td>
+            <td>Integra o cadastro pessoal do representante.</td>
+        </tr>
+
+        <tr>
+            <td><code>codigo_representante</code></td>
+            <td>Código utilizado pela Trattos para identificar comercialmente o representante.</td>
             <td>Deve estar associado ao representante correspondente.</td>
         </tr>
 
         <tr>
-            <td>endereco</td>
+            <td><code>data_cadastro</code></td>
+            <td>Data em que o representante foi cadastrado.</td>
+            <td>Permite identificar o início de seu cadastro na organização.</td>
+        </tr>
+
+        <tr>
+            <td><code>endereco</code></td>
             <td>Endereço cadastrado do representante.</td>
-            <td>Informação pertencente ao cadastro do representante.</td>
+            <td>Informação pertencente ao cadastro comercial.</td>
         </tr>
 
         <tr>
-            <td>estado_civil</td>
+            <td><code>estado_civil</code></td>
             <td>Estado civil informado no cadastro.</td>
-            <td>Informação pertencente ao cadastro do representante.</td>
-        </tr>
-
-        <tr>
-            <td>idade</td>
-            <td>Idade registrada para o representante.</td>
-            <td>Informação pertencente ao cadastro do representante.</td>
-        </tr>
-
-        <tr>
-            <td>nivel</td>
-            <td>Nível atual do representante no sistema multinível.</td>
-            <td>Pode ser alterado conforme as regras e metas definidas pela empresa.</td>
-        </tr>
-
-        <tr>
-            <td>plano</td>
-            <td>Plano atualmente associado ao representante.</td>
-            <td>Deve representar o plano vigente do representante.</td>
-        </tr>
-
-        <tr>
-            <td>percentual_comissao</td>
-            <td>Percentual de comissão atualmente associado ao representante.</td>
-            <td>Utilizado no processo de cálculo e acompanhamento das comissões.</td>
+            <td>Informação cadastral do representante.</td>
         </tr>
     </table>
+
+
+    <!-- CLIENTE -->
+
     <h2>Entidade: CLIENTE</h2>
 
     <table>
@@ -121,20 +180,76 @@
         </tr>
 
         <tr>
-            <td>id_cliente</td>
+            <td><code>id_cliente</code></td>
             <td>Identificador único do cliente.</td>
-            <td>Obrigatório e único.</td>
+            <td>Obrigatório e único. O nome não deve ser utilizado como identificador único.</td>
+        </tr>
+
+        <tr>
+            <td><code>nome</code></td>
+            <td>Nome do cliente.</td>
+            <td>Utilizado para identificação e atendimento.</td>
+        </tr>
+
+        <tr>
+            <td><code>cpf</code></td>
+            <td>CPF do cliente.</td>
+            <td>Informação cadastral pessoal.</td>
+        </tr>
+
+        <tr>
+            <td><code>rg</code></td>
+            <td>Documento de identidade do cliente.</td>
+            <td>Informação cadastral pessoal.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_nascimento</code></td>
+            <td>Data de nascimento do cliente.</td>
+            <td>Utilizada no cadastro do cliente.</td>
+        </tr>
+
+        <tr>
+            <td><code>endereco</code></td>
+            <td>Endereço do cliente.</td>
+            <td>Informação necessária para cadastro e atendimento.</td>
+        </tr>
+
+        <tr>
+            <td><code>telefone</code></td>
+            <td>Número de telefone do cliente.</td>
+            <td>Meio de contato.</td>
+        </tr>
+
+        <tr>
+            <td><code>whatsapp</code></td>
+            <td>Número utilizado pelo cliente no WhatsApp.</td>
+            <td>Meio de contato utilizado no acompanhamento comercial.</td>
+        </tr>
+
+        <tr>
+            <td><code>email</code></td>
+            <td>Endereço eletrônico do cliente.</td>
+            <td>Meio de contato.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_cadastro</code></td>
+            <td>Data em que o cliente foi cadastrado.</td>
+            <td>Permite acompanhar o histórico do relacionamento com a organização.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_prevista_proxima_compra</code></td>
+            <td>Previsão da próxima compra do cliente.</td>
+            <td>Auxilia no acompanhamento comercial.</td>
         </tr>
     </table>
 
-    <p class="observacao">
-        <strong>Observação:</strong> os demais atributos de CLIENTE serão
-        definidos após validação com a organização sobre quais informações
-        devem ser cadastradas pelos representantes.
-    </p>
 
+    <!-- CATEGORIA -->
 
-    <h2>Entidade: PEDIDO</h2>
+    <h2>Entidade: CATEGORIA</h2>
 
     <table>
         <tr>
@@ -144,32 +259,28 @@
         </tr>
 
         <tr>
-            <td>id_pedido</td>
-            <td>Identificador único interno do pedido.</td>
+            <td><code>id_categoria</code></td>
+            <td>Identificador único da categoria.</td>
             <td>Obrigatório e único.</td>
         </tr>
 
         <tr>
-            <td>numero_pedido</td>
-            <td>Número utilizado para identificar o pedido na operação.</td>
-            <td>Deve identificar o pedido correspondente.</td>
+            <td><code>nome_categoria</code></td>
+            <td>Nome da categoria comercial, como R30 ou R40.</td>
+            <td>Representa a classificação comercial alcançada pelo representante.</td>
         </tr>
 
         <tr>
-            <td>data</td>
-            <td>Data em que o pedido foi registrado.</td>
-            <td>Deve representar a data da operação.</td>
-        </tr>
-
-        <tr>
-            <td>frete</td>
-            <td>Valor relacionado ao envio do pedido.</td>
-            <td>Aplicável quando houver cobrança de frete.</td>
+            <td><code>percentual_desconto_base</code></td>
+            <td>Percentual básico de desconto associado à categoria.</td>
+            <td>Cada categoria pode possuir condição comercial diferente.</td>
         </tr>
     </table>
 
 
-    <h2>Entidade: ITEM_PEDIDO</h2>
+    <!-- QUALIFICACAO -->
+
+    <h2>Entidade: QUALIFICACAO</h2>
 
     <table>
         <tr>
@@ -179,38 +290,34 @@
         </tr>
 
         <tr>
-            <td>id_item</td>
-            <td>Identificador único do item do pedido.</td>
-            <td>Obrigatório e único.</td>
+            <td><code>id_qualificacao</code></td>
+            <td>Identificador único da qualificação.</td>
+            <td>Cada evento de qualificação deve possuir registro próprio.</td>
         </tr>
 
         <tr>
-            <td>quantidade</td>
-            <td>Quantidade do produto incluída no pedido.</td>
-            <td>Deve representar a quantidade solicitada daquele produto.</td>
+            <td><code>data_qualificacao</code></td>
+            <td>Data em que a qualificação ocorreu.</td>
+            <td>Permite manter o histórico de evolução do representante.</td>
         </tr>
 
         <tr>
-            <td>valor_unitario</td>
-            <td>Valor unitário aplicado ao produto no pedido.</td>
-            <td>Deve registrar o valor utilizado naquela operação.</td>
+            <td><code>tipo_qualificacao</code></td>
+            <td>Forma pela qual a qualificação foi alcançada.</td>
+            <td>Pode variar conforme a regra comercial utilizada.</td>
         </tr>
 
         <tr>
-            <td>desconto_item</td>
-            <td>Desconto aplicado ao item do pedido.</td>
-            <td>Deve registrar o desconto utilizado no item.</td>
-        </tr>
-
-        <tr>
-            <td>percentual_comissao</td>
-            <td>Percentual de comissão relacionado ao item.</td>
-            <td>Utilizado no controle das comissões associadas à operação.</td>
+            <td><code>valor_base</code></td>
+            <td>Valor considerado para determinada regra de qualificação.</td>
+            <td>Utilizado quando a modalidade depender de uma base de valor.</td>
         </tr>
     </table>
 
 
-    <h2>Entidade: PRODUTO</h2>
+    <!-- INGRESSO -->
+
+    <h2>Entidade: INGRESSO</h2>
 
     <table>
         <tr>
@@ -220,20 +327,40 @@
         </tr>
 
         <tr>
-            <td>id_produto</td>
-            <td>Identificador único do produto.</td>
-            <td>Obrigatório e único.</td>
+            <td><code>id_ingresso</code></td>
+            <td>Identificador único do ingresso.</td>
+            <td>Cada representante possui um único evento de ingresso.</td>
         </tr>
 
         <tr>
-            <td>nome</td>
-            <td>Nome utilizado para identificar comercialmente o produto.</td>
-            <td>Deve representar um produto comercializado pela Trattos.</td>
+            <td><code>data_ingresso</code></td>
+            <td>Data de entrada do representante na Trattos.</td>
+            <td>Marca o início formal da participação na rede.</td>
+        </tr>
+
+        <tr>
+            <td><code>valor_kit</code></td>
+            <td>Valor do kit adquirido no ingresso.</td>
+            <td>Representa o valor definido pela empresa para ingresso.</td>
+        </tr>
+
+        <tr>
+            <td><code>quantidade_parcelas</code></td>
+            <td>Quantidade de parcelas utilizadas no pagamento do ingresso.</td>
+            <td>Deve respeitar as condições comerciais vigentes.</td>
+        </tr>
+
+        <tr>
+            <td><code>status_pagamento</code></td>
+            <td>Situação do pagamento do ingresso.</td>
+            <td>Permite acompanhar se o ingresso está quitado ou pendente.</td>
         </tr>
     </table>
 
 
-    <h2>Entidade: LOTE</h2>
+    <!-- ATIVIDADE MENSAL -->
+
+    <h2>Entidade: ATIVIDADE_MENSAL</h2>
 
     <table>
         <tr>
@@ -243,53 +370,32 @@
         </tr>
 
         <tr>
-            <td>id_lote</td>
-            <td>Identificador único do lote.</td>
-            <td>Obrigatório e único.</td>
+            <td><code>id_atividade</code></td>
+            <td>Identificador único do registro mensal.</td>
+            <td>Cada período acompanhado deve possuir registro próprio.</td>
         </tr>
 
         <tr>
-            <td>numero_lote</td>
-            <td>Número utilizado pela empresa para identificar o lote.</td>
-            <td>Cada lote deve possuir identificação correspondente.</td>
+            <td><code>mes_referencia</code></td>
+            <td>Mês ao qual a atividade se refere.</td>
+            <td>A avaliação de atividade ocorre por período mensal.</td>
         </tr>
 
         <tr>
-            <td>data_fabricacao</td>
-            <td>Data de fabricação do lote.</td>
-            <td>Utilizada no controle do lote.</td>
+            <td><code>ano_referencia</code></td>
+            <td>Ano correspondente ao período de atividade.</td>
+            <td>Utilizado junto ao mês para identificar o período.</td>
         </tr>
 
         <tr>
-            <td>data_validade</td>
-            <td>Data de validade do lote.</td>
-            <td>Utilizada no controle de validade e na separação dos produtos.</td>
+            <td><code>status_atividade</code></td>
+            <td>Situação do representante naquele período.</td>
+            <td>A situação mensal é independente da categoria já alcançada.</td>
         </tr>
     </table>
 
 
-    <h2>Entidade: PAGAMENTO</h2>
-
-    <table>
-        <tr>
-            <th>Atributo</th>
-            <th>Descrição</th>
-            <th>Regra de negócio associada</th>
-        </tr>
-
-        <tr>
-            <td>id_pagamento</td>
-            <td>Identificador único do pagamento.</td>
-            <td>Obrigatório e único.</td>
-        </tr>
-    </table>
-
-    <p class="observacao">
-        <strong>Observação:</strong> os demais atributos de PAGAMENTO
-        serão definidos após a validação de como os pagamentos são
-        associados aos pedidos.
-    </p>
-
+    <!-- COMISSAO -->
 
     <h2>Entidade: COMISSAO</h2>
 
@@ -301,18 +407,364 @@
         </tr>
 
         <tr>
-            <td>id_comissao</td>
-            <td>Identificador único do registro de comissão.</td>
-            <td>Obrigatório e único.</td>
+            <td><code>id_comissao</code></td>
+            <td>Identificador único da comissão.</td>
+            <td>Cada comissão deve ser registrada separadamente.</td>
+        </tr>
+
+        <tr>
+            <td><code>tipo_comissao</code></td>
+            <td>Modalidade da comissão gerada.</td>
+            <td>A Trattos possui diferentes modalidades de comissão e bonificação.</td>
+        </tr>
+
+        <tr>
+            <td><code>valor_base</code></td>
+            <td>Valor utilizado como base para cálculo.</td>
+            <td>Pode variar conforme o evento que gerou a comissão.</td>
+        </tr>
+
+        <tr>
+            <td><code>percentual</code></td>
+            <td>Percentual aplicado sobre o valor-base.</td>
+            <td>Depende da modalidade de comissão.</td>
+        </tr>
+
+        <tr>
+            <td><code>valor_comissao</code></td>
+            <td>Valor monetário da comissão.</td>
+            <td>Deve corresponder ao lançamento individual do beneficiário.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_geracao</code></td>
+            <td>Data em que a comissão foi gerada.</td>
+            <td>Permite rastreabilidade financeira.</td>
+        </tr>
+
+        <tr>
+            <td><code>status</code></td>
+            <td>Situação atual da comissão.</td>
+            <td>Pode representar geração, aprovação, pagamento ou cancelamento.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_pagamento</code></td>
+            <td>Data em que a comissão foi efetivamente paga.</td>
+            <td>Pode permanecer sem preenchimento enquanto não estiver paga.</td>
         </tr>
     </table>
 
-    <p class="observacao">
-        <strong>Observação:</strong> os demais atributos de COMISSAO
-        serão definidos após a validação das regras de geração e
-        distribuição das comissões no sistema multinível.
-    </p>
 
+    <!-- VISITA -->
+
+    <h2>Entidade: VISITA</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_visita</code></td>
+            <td>Identificador único da visita.</td>
+            <td>Cada visita deve possuir registro próprio.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_visita</code></td>
+            <td>Data em que a visita ocorreu.</td>
+            <td>Permite formar o histórico de acompanhamento do cliente.</td>
+        </tr>
+
+        <tr>
+            <td><code>observacoes</code></td>
+            <td>Informações registradas durante ou após a visita.</td>
+            <td>Utilizadas no acompanhamento do cliente.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_proxima_visita</code></td>
+            <td>Data prevista para o próximo acompanhamento.</td>
+            <td>Auxilia no planejamento dos próximos contatos.</td>
+        </tr>
+    </table>
+
+
+    <!-- CONDICAO SAUDE -->
+
+    <h2>Entidade: CONDICAO_SAUDE</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_condicao</code></td>
+            <td>Identificador único da condição de saúde.</td>
+            <td>Um cliente pode possuir várias condições registradas.</td>
+        </tr>
+
+        <tr>
+            <td><code>nome_condicao</code></td>
+            <td>Nome ou identificação da condição.</td>
+            <td>Diferencia condições registradas para o mesmo cliente.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_inicio_sintomas</code></td>
+            <td>Data aproximada de início dos sintomas.</td>
+            <td>Utilizada no acompanhamento.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_diagnostico</code></td>
+            <td>Data do diagnóstico, quando conhecida.</td>
+            <td>Pode não existir para todas as condições.</td>
+        </tr>
+
+        <tr>
+            <td><code>sintomas</code></td>
+            <td>Sintomas relacionados à condição.</td>
+            <td>Uma condição pode possuir mais de um sintoma.</td>
+        </tr>
+
+        <tr>
+            <td><code>medicamentos</code></td>
+            <td>Medicamentos relacionados ao tratamento ou acompanhamento.</td>
+            <td>Pode conter mais de um medicamento.</td>
+        </tr>
+
+        <tr>
+            <td><code>alergias</code></td>
+            <td>Alergias relevantes informadas pelo cliente.</td>
+            <td>Pode possuir mais de uma ocorrência.</td>
+        </tr>
+
+        <tr>
+            <td><code>historico_doenca</code></td>
+            <td>Histórico relacionado à condição de saúde.</td>
+            <td>Utilizado para manter o contexto do acompanhamento.</td>
+        </tr>
+    </table>
+
+
+    <!-- PEDIDO -->
+
+    <h2>Entidade: PEDIDO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_pedido</code></td>
+            <td>Identificador único do pedido.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td><code>numero_pedido</code></td>
+            <td>Número utilizado para identificar o pedido na operação.</td>
+            <td>Utilizado para consultas e acompanhamento.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_pedido</code></td>
+            <td>Data em que o pedido foi realizado.</td>
+            <td>Necessária para histórico e controle.</td>
+        </tr>
+
+        <tr>
+            <td><code>frete</code></td>
+            <td>Valor ou informação relacionada ao frete.</td>
+            <td>Aplicável quando houver envio.</td>
+        </tr>
+
+        <tr>
+            <td><code>status_pedido</code></td>
+            <td>Situação atual do pedido.</td>
+            <td>Permite acompanhar processamento, separação, retirada ou envio.</td>
+        </tr>
+    </table>
+
+
+    <!-- PAGAMENTO PEDIDO -->
+
+    <h2>Entidade: PAGAMENTO_PEDIDO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_pagamento_pedido</code></td>
+            <td>Identificador único do pagamento relacionado ao pedido.</td>
+            <td>Cada ocorrência de pagamento deve possuir registro próprio.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_pagamento</code></td>
+            <td>Data em que o pagamento ocorreu.</td>
+            <td>Necessária para histórico financeiro.</td>
+        </tr>
+
+        <tr>
+            <td><code>valor</code></td>
+            <td>Valor pago naquele registro.</td>
+            <td>Um pedido pode possuir vários pagamentos.</td>
+        </tr>
+
+        <tr>
+            <td><code>forma_pagamento</code></td>
+            <td>Forma utilizada no pagamento.</td>
+            <td>Uma mesma operação pode utilizar diferentes formas de pagamento.</td>
+        </tr>
+    </table>
+
+
+    <!-- PRODUTO -->
+
+    <h2>Entidade: PRODUTO</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_produto</code></td>
+            <td>Identificador único do produto.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td><code>nome_produto</code></td>
+            <td>Nome do produto comercializado.</td>
+            <td>Utilizado em consultas, pedidos e vendas.</td>
+        </tr>
+
+        <tr>
+            <td><code>preco_tabela</code></td>
+            <td>Preço de tabela atual do produto.</td>
+            <td>Serve como referência para descontos e operações comerciais.</td>
+        </tr>
+    </table>
+
+
+    <!-- LOTE -->
+
+    <h2>Entidade: LOTE</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_lote</code></td>
+            <td>Identificador único do lote.</td>
+            <td>Obrigatório e único.</td>
+        </tr>
+
+        <tr>
+            <td><code>numero_lote</code></td>
+            <td>Número atribuído ao lote.</td>
+            <td>Utilizado para rastreabilidade.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_fabricacao</code></td>
+            <td>Data de fabricação do lote.</td>
+            <td>Utilizada no controle dos produtos.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_validade</code></td>
+            <td>Data de validade do lote.</td>
+            <td>Deve ser considerada no controle de saída e validade.</td>
+        </tr>
+    </table>
+
+
+    <!-- VENDA -->
+
+    <h2>Entidade: VENDA</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_venda</code></td>
+            <td>Identificador único da venda.</td>
+            <td>Cada venda deve possuir registro próprio.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_venda</code></td>
+            <td>Data em que a venda ocorreu.</td>
+            <td>Utilizada para consulta do histórico de compras.</td>
+        </tr>
+    </table>
+
+
+    <!-- PAGAMENTO VENDA -->
+
+    <h2>Entidade: PAGAMENTO_VENDA</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_pagamento_venda</code></td>
+            <td>Identificador único do pagamento da venda.</td>
+            <td>Cada pagamento deve ser registrado individualmente.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_pagamento</code></td>
+            <td>Data em que o pagamento ocorreu.</td>
+            <td>Necessária para histórico financeiro.</td>
+        </tr>
+
+        <tr>
+            <td><code>valor</code></td>
+            <td>Valor recebido naquele pagamento.</td>
+            <td>Uma venda pode possuir vários pagamentos.</td>
+        </tr>
+
+        <tr>
+            <td><code>forma_pagamento</code></td>
+            <td>Forma utilizada no pagamento.</td>
+            <td>Uma venda pode utilizar diferentes formas de pagamento.</td>
+        </tr>
+    </table>
+
+
+    <!-- FORNECEDOR -->
 
     <h2>Entidade: FORNECEDOR</h2>
 
@@ -324,18 +776,242 @@
         </tr>
 
         <tr>
-            <td>id_fornecedor</td>
+            <td><code>id_fornecedor</code></td>
             <td>Identificador único do fornecedor.</td>
             <td>Obrigatório e único.</td>
         </tr>
+
+        <tr>
+            <td><code>cnpj</code></td>
+            <td>CNPJ do fornecedor.</td>
+            <td>Informação cadastral da empresa fornecedora.</td>
+        </tr>
+
+        <tr>
+            <td><code>razao_social</code></td>
+            <td>Razão social do fornecedor.</td>
+            <td>Informação comercial e cadastral.</td>
+        </tr>
+
+        <tr>
+            <td><code>nome_fantasia</code></td>
+            <td>Nome fantasia do fornecedor.</td>
+            <td>Informação comercial.</td>
+        </tr>
+
+        <tr>
+            <td><code>endereco</code></td>
+            <td>Endereço do fornecedor.</td>
+            <td>Utilizado no cadastro comercial.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_abertura</code></td>
+            <td>Data de abertura da empresa fornecedora.</td>
+            <td>Informação cadastral.</td>
+        </tr>
+
+        <tr>
+            <td><code>contato_responsavel</code></td>
+            <td>Pessoa responsável pelo contato comercial.</td>
+            <td>Utilizada na comunicação com o fornecedor.</td>
+        </tr>
+
+        <tr>
+            <td><code>telefone</code></td>
+            <td>Telefone do fornecedor.</td>
+            <td>Meio de contato.</td>
+        </tr>
+
+        <tr>
+            <td><code>whatsapp</code></td>
+            <td>Número de WhatsApp do fornecedor.</td>
+            <td>Meio de contato comercial.</td>
+        </tr>
+
+        <tr>
+            <td><code>email</code></td>
+            <td>Endereço eletrônico do fornecedor.</td>
+            <td>Meio de contato comercial.</td>
+        </tr>
+
+        <tr>
+            <td><code>website</code></td>
+            <td>Site do fornecedor.</td>
+            <td>Informação comercial quando existente.</td>
+        </tr>
+
+        <tr>
+            <td><code>status_anvisa</code></td>
+            <td>Situação relacionada à ANVISA.</td>
+            <td>Utilizada no acompanhamento regulatório.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_anvisa</code></td>
+            <td>Data relacionada à verificação da situação perante a ANVISA.</td>
+            <td>Permite acompanhar a atualização da informação regulatória.</td>
+        </tr>
+
+        <tr>
+            <td><code>status_vigilancia_sanitaria</code></td>
+            <td>Situação perante a Vigilância Sanitária.</td>
+            <td>Informação utilizada na qualificação do fornecedor.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_inicio_vigilancia</code></td>
+            <td>Data inicial relacionada à situação sanitária.</td>
+            <td>Utilizada no acompanhamento documental.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_validade_vigilancia</code></td>
+            <td>Data de validade da documentação sanitária.</td>
+            <td>Auxilia no controle da regularidade do fornecedor.</td>
+        </tr>
+
+        <tr>
+            <td><code>prazo_entrega</code></td>
+            <td>Prazo esperado para fornecimento dos produtos.</td>
+            <td>Utilizado no planejamento de reposição.</td>
+        </tr>
+
+        <tr>
+            <td><code>formas_pagamento</code></td>
+            <td>Formas de pagamento aceitas pelo fornecedor.</td>
+            <td>Um fornecedor pode aceitar mais de uma forma de pagamento.</td>
+        </tr>
     </table>
 
-    <p class="observacao">
-        <strong>Observação:</strong> os demais atributos e a relação
-        entre FORNECEDOR e PRODUTO serão finalizados após validação
-        com a organização.
+
+    <!-- QUALIFICACAO FORNECEDOR -->
+
+    <h2>Entidade: QUALIFICACAO_FORNECEDOR</h2>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>id_qualificacao_fornecedor</code></td>
+            <td>Identificador único da avaliação do fornecedor.</td>
+            <td>Cada avaliação deve possuir registro próprio.</td>
+        </tr>
+
+        <tr>
+            <td><code>data_qualificacao</code></td>
+            <td>Data em que a qualificação foi realizada.</td>
+            <td>Permite construir o histórico das avaliações.</td>
+        </tr>
+
+        <tr>
+            <td><code>status</code></td>
+            <td>Resultado ou situação obtida na avaliação.</td>
+            <td>Representa a condição do fornecedor naquele momento.</td>
+        </tr>
+
+        <tr>
+            <td><code>observacao</code></td>
+            <td>Observações relacionadas à avaliação.</td>
+            <td>Utilizadas para registrar informações relevantes sobre a qualificação.</td>
+        </tr>
+    </table>
+
+
+    <!-- RELACIONAMENTOS -->
+
+    <h2>Atributos dos Relacionamentos</h2>
+
+    <p>
+        Alguns atributos pertencem diretamente aos relacionamentos,
+        pois seus valores dependem da combinação específica entre as entidades.
     </p>
+
+
+    <h3>Relacionamento: CONTEM — PEDIDO e PRODUTO</h3>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>quantidade</code></td>
+            <td>Quantidade do produto incluída no pedido.</td>
+            <td>Todo pedido deve possuir pelo menos um produto.</td>
+        </tr>
+
+        <tr>
+            <td><code>valor_unitario</code></td>
+            <td>Valor unitário considerado para o produto naquele pedido.</td>
+            <td>Deve representar o valor utilizado na operação.</td>
+        </tr>
+
+        <tr>
+            <td><code>desconto_item</code></td>
+            <td>Desconto aplicado especificamente ao produto naquele pedido.</td>
+            <td>Pode variar conforme as condições comerciais.</td>
+        </tr>
+    </table>
+
+
+    <h3>Relacionamento: UTILIZA_LOTE — PEDIDO e LOTE</h3>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>quantidade_lote</code></td>
+            <td>Quantidade retirada de determinado lote para atender o pedido.</td>
+            <td>Um pedido pode utilizar mais de um lote, inclusive do mesmo produto.</td>
+        </tr>
+    </table>
+
+
+    <h3>Relacionamento: INCLUI — VENDA e PRODUTO</h3>
+
+    <table>
+        <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Regra de negócio associada</th>
+        </tr>
+
+        <tr>
+            <td><code>quantidade</code></td>
+            <td>Quantidade do produto vendida ao cliente.</td>
+            <td>Toda venda deve possuir pelo menos um produto.</td>
+        </tr>
+
+        <tr>
+            <td><code>preco_tabela</code></td>
+            <td>Preço de tabela considerado no momento da venda.</td>
+            <td>Preserva a referência comercial utilizada na operação.</td>
+        </tr>
+
+        <tr>
+            <td><code>preco_vendido</code></td>
+            <td>Preço efetivamente praticado na venda.</td>
+            <td>Pode ser diferente do preço de tabela.</td>
+        </tr>
+
+        <tr>
+            <td><code>desconto_aplicado</code></td>
+            <td>Desconto aplicado ao produto na venda.</td>
+            <td>Deve representar a condição concedida na operação.</td>
+        </tr>
+    </table>
+
 
 </body>
 </html>
-
