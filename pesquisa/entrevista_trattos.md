@@ -1,5 +1,7 @@
 # Levantamento de Campo — Trattos
 
+Este documento apresenta um resumo das informações obtidas durante o levantamento realizado com a Trattos para compreensão de seus processos, regras de negócio e necessidades relacionadas ao sistema.
+
 ## Produtos e serviços
 
 A Trattos trabalha com suplementos alimentares funcionais voltados aos cuidados com a saúde e qualidade de vida, incluindo produtos como colágeno hidrolisado, cálcio e magnésio, levedo de cerveja, Allium e pólen apícola.
