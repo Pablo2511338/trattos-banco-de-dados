@@ -1,9 +1,7 @@
 # Diagramas
 
-Nesta pasta serão armazenados os diagramas do projeto da Trattos.
+Esta pasta contém os diagramas desenvolvidos para o projeto de Banco de Dados da Trattos.
 
-## Arquivos previstos
+## Arquivos
 
-- DER conceitual editável
-- DER conceitual em imagem
-- Versões revisadas do DER
+- `DER_Trattos_Conceitual.png` — versão final do Diagrama Entidade-Relacionamento (DER) conceitual da Trattos, desenvolvido no BRModelo.
