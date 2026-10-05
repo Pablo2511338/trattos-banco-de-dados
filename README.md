@@ -1,6 +1,6 @@
 # Entrega 1 — Modelo Conceitual (DER)
 
-## Metadados
+## Integrantes
 
 - Breno Troillo Carvalho — RGM: 4797955
 - Pablo Ferreira Dos Reis — RGM: 48075353
