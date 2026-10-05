@@ -2,9 +2,9 @@
 
 ## Metadados
 
-Breno Troillo Carvalho — RGM: 4797955
-Pablo Ferreira Dos Reis — RGM: 48075353
-Vitoria Rodrigues Alves — RGM: 49993526
+- Breno Troillo Carvalho — RGM: 4797955
+- Pablo Ferreira Dos Reis — RGM: 48075353
+- Vitoria Rodrigues Alves — RGM: 49993526
 
 ## 1. Caracterização da Organização
 
