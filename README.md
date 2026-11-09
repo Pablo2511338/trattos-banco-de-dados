@@ -579,10 +579,11 @@ O dicionário de dados a seguir descreve as entidades e atributos identificados 
 | tipo_comissao | Identifica a modalidade da comissão gerada. | A Trattos possui diferentes tipos de comissão e bonificação. |
 | valor_base | Valor utilizado como base para o cálculo. | Pode variar de acordo com o evento que gerou a comissão. |
 | percentual | Percentual aplicado sobre o valor-base. | Depende da modalidade de comissão. |
-| valor_comissao | Valor monetário da comissão calculada. | Deve corresponder ao lançamento individual de um beneficiário. |
 | data_geracao | Data em que a comissão foi gerada. | Permite manter rastreabilidade financeira. |
 | status | Situação atual da comissão. | Pode representar etapas como geração, aprovação, pagamento ou cancelamento. |
 | data_pagamento | Data em que a comissão foi efetivamente paga. | Pode permanecer sem preenchimento enquanto a comissão não estiver paga. |
+
+**Observação:** o valor da comissão não é armazenado diretamente. Ele será calculado a partir de `valor_base` e `percentual` quando necessário.
 
 ### 5.8 VISITA
 
