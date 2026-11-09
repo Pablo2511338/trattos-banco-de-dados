@@ -1,4 +1,4 @@
-# Entrega 2 — Modelo Logico
+# Entrega 2 — Modelo Lógico
 
 ## Integrantes
 
