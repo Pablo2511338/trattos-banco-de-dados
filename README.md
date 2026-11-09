@@ -259,7 +259,7 @@ Os requisitos funcionais representam as ações e funcionalidades que o sistema 
   O sistema deve permitir registrar e consultar a situação mensal dos representantes em relação às condições necessárias para benefícios e comissões.
 
 - **RF31 — Registrar comissões:**  
-  O sistema deve permitir registrar individualmente as comissões geradas para cada representante, contendo tipo de comissão, valor-base, percentual, valor da comissão, data de geração, status e data de pagamento.
+  O sistema deve permitir registrar individualmente as comissões geradas para cada representante, contendo tipo de comissão, valor-base, percentual, data de geração, status e data de pagamento. O valor final da comissão será calculado a partir do valor-base e do percentual quando necessário.
 
 - **RF32 — Consultar comissões:**  
   O sistema deve permitir que usuários autorizados consultem as comissões geradas, aprovadas e pagas.
@@ -399,7 +399,7 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
   Cada comissão deve ser registrada separadamente para o respectivo beneficiário, mesmo quando um mesmo evento gera valores para mais de um representante.
 
 - **RN17 — Registro de comissão:**  
-  Cada comissão deve possuir informações que permitam identificar seu tipo, valor-base, percentual, valor calculado, data de geração, situação e data de pagamento.
+  Cada comissão deve possuir informações que permitam identificar seu tipo, valor-base, percentual, data de geração, situação e data de pagamento. O valor da comissão será obtido por cálculo quando necessário.
 
 - **RN18 — Preservação das comissões:**  
   Registros de comissão não devem ser simplesmente apagados quando houver cancelamento ou correção, pois o histórico financeiro precisa ser preservado.
@@ -503,225 +503,297 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
   Relacionamentos redundantes devem ser evitados quando a mesma informação puder ser obtida por outro relacionamento já existente no modelo, exceto quando cada relacionamento representar um fato de negócio distinto.
 
 ---
-## 5. Dicionário de Dados Conceitual (Preliminar)
+## 5. Dicionário de Dados — Modelo Lógico
 
-O dicionário de dados a seguir descreve as entidades e atributos identificados no modelo conceitual da Trattos. As descrições foram elaboradas a partir do levantamento realizado com a organização e das regras de negócio definidas para o projeto.
+Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo lógico final. Por isso, além das entidades que já existiam no DER conceitual, esta seção também apresenta as chaves estrangeiras, as tabelas associativas e as tabelas criadas durante a normalização.
+
+> **Observação sobre os tipos numéricos:** no BRModelo Web utilizamos `FLOAT` para valores monetários e percentuais porque a ferramenta não oferece `DECIMAL` na lista utilizada pelo grupo. No script MySQL, esses campos poderão ser implementados com `DECIMAL` para garantir maior precisão.
 
 ### 5.1 REPRESENTANTE
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_representante | Identificador único do representante. | Deve identificar unicamente cada representante no sistema. |
-| nome | Nome do representante. | Utilizado para identificação e consulta. |
-| cpf | CPF do representante. | Deve estar associado ao cadastro do representante. |
-| codigo_representante | Código utilizado pela Trattos para identificar comercialmente o representante. | Cada representante possui seu código de identificação na operação. |
-| data_cadastro | Data em que o representante foi cadastrado. | Permite identificar o início de seu vínculo com a organização. |
-| endereco | Endereço do representante. | Informação utilizada no cadastro comercial. |
-| estado_civil | Estado civil informado no cadastro. | Informação cadastral do representante. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_representante | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do representante. |
+| nome | VARCHAR | NOT NULL | Nome do representante. |
+| cpf | VARCHAR | UNIQUE | CPF do representante. |
+| codigo_representante | VARCHAR | UNIQUE, NOT NULL | Código comercial utilizado pela Trattos. |
+| data_cadastro | DATE | NOT NULL | Data de cadastro do representante. |
+| endereco | VARCHAR | — | Endereço informado no cadastro. |
+| estado_civil | VARCHAR | — | Estado civil informado no cadastro. |
+| id_patrocinador | INT | FK, aceita NULL | Representante que realizou o patrocínio direto. Referencia `REPRESENTANTE.id_representante`. |
 
 ### 5.2 CLIENTE
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_cliente | Identificador único do cliente. | O nome não deve ser utilizado como identificador único, pois clientes diferentes podem possuir o mesmo nome. |
-| nome | Nome do cliente. | Informação utilizada para identificação e atendimento. |
-| cpf | CPF do cliente. | Informação cadastral pessoal. |
-| rg | Documento de identidade do cliente. | Informação cadastral pessoal. |
-| data_nascimento | Data de nascimento do cliente. | Utilizada no cadastro do cliente. |
-| endereco | Endereço do cliente. | Informação necessária para cadastro e atendimento. |
-| telefone | Número de telefone do cliente. | Meio de contato. |
-| whatsapp | Número utilizado pelo cliente no WhatsApp. | Meio de contato utilizado no acompanhamento comercial. |
-| email | Endereço eletrônico do cliente. | Meio de contato. |
-| data_cadastro | Data em que o cliente foi inserido no sistema. | Permite acompanhar o histórico do relacionamento com a empresa. |
-| data_prevista_proxima_compra | Previsão da próxima compra do cliente. | Utilizada para auxiliar no acompanhamento comercial. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_cliente | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do cliente. |
+| nome | VARCHAR | NOT NULL | Nome do cliente. |
+| cpf | VARCHAR | UNIQUE | CPF do cliente, quando informado. |
+| rg | VARCHAR | — | Documento de identidade do cliente. |
+| data_nascimento | DATE | — | Data de nascimento do cliente. |
+| endereco | VARCHAR | — | Endereço do cliente. |
+| telefone | VARCHAR | — | Telefone para contato. |
+| whatsapp | VARCHAR | — | Número utilizado no WhatsApp. |
+| email | VARCHAR | — | E-mail do cliente. |
+| data_cadastro | DATE | NOT NULL | Data em que o cliente foi cadastrado. |
+| data_prevista_proxima_compra | DATE | aceita NULL | Previsão da próxima compra. |
+| id_representante | INT | FK, NOT NULL | Representante responsável pelo cliente. Referencia `REPRESENTANTE.id_representante`. |
 
 ### 5.3 CATEGORIA
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_categoria | Identificador único da categoria. | Deve identificar cada categoria comercial existente. |
-| nome_categoria | Nome da categoria comercial, como R30 ou R40. | O representante inicia normalmente como R30 e pode evoluir conforme regras de qualificação. |
-| percentual_desconto_base | Percentual básico de desconto associado à categoria. | R30 e R40 possuem condições comerciais distintas. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_categoria | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da categoria. |
+| nome_categoria | VARCHAR | NOT NULL | Nome da categoria comercial, como R30 ou R40. |
+| percentual_desconto_base | FLOAT | NOT NULL | Percentual de desconto-base associado à categoria. |
 
 ### 5.4 QUALIFICACAO
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_qualificacao | Identificador único da qualificação. | Cada evento de qualificação deve possuir seu próprio registro. |
-| data_qualificacao | Data em que a qualificação ocorreu. | Permite manter o histórico de evolução do representante. |
-| tipo_qualificacao | Forma pela qual a qualificação foi alcançada. | A Trattos possui mais de uma modalidade de progressão para categorias superiores. |
-| valor_base | Valor considerado para determinada regra de qualificação. | Deve representar a base utilizada no processo, quando aplicável. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_qualificacao | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do evento de qualificação. |
+| data_qualificacao | DATE | NOT NULL | Data em que a qualificação ocorreu. |
+| tipo_qualificacao | VARCHAR | NOT NULL | Forma pela qual a qualificação foi alcançada. |
+| valor_base | FLOAT | aceita NULL | Valor relacionado à qualificação, quando aplicável. |
+| id_representante | INT | FK, NOT NULL | Representante que recebeu a qualificação. |
+| id_categoria | INT | FK, NOT NULL | Categoria alcançada na qualificação. |
+| id_treinador | INT | FK, aceita NULL | Representante que atuou como treinador, quando houver. |
 
 ### 5.5 INGRESSO
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_ingresso | Identificador único do ingresso. | Cada representante possui um único ingresso registrado. |
-| data_ingresso | Data de entrada do representante na Trattos. | Marca o início formal de sua participação na rede. |
-| valor_kit | Valor do kit adquirido para ingresso. | O ingresso ocorre mediante aquisição do kit definido pela empresa. |
-| quantidade_parcelas | Quantidade de parcelas utilizadas no pagamento do ingresso. | O kit pode possuir condições de parcelamento definidas pela empresa. |
-| status_pagamento | Situação do pagamento do ingresso. | Permite acompanhar se o ingresso está quitado ou pendente. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_ingresso | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do ingresso. |
+| data_ingresso | DATE | NOT NULL | Data de entrada do representante. |
+| valor_kit | FLOAT | NOT NULL | Valor do kit de ingresso. |
+| quantidade_parcelas | INT | NOT NULL | Quantidade de parcelas utilizadas no pagamento. |
+| status_pagamento | VARCHAR | NOT NULL | Situação do pagamento do ingresso. |
+| id_representante | INT | FK, NOT NULL, UNIQUE | Representante relacionado ao ingresso. A restrição `UNIQUE` mantém a relação 1:1. |
 
 ### 5.6 ATIVIDADE_MENSAL
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_atividade | Identificador único do registro mensal. | Cada período acompanhado deve possuir seu próprio registro. |
-| mes_referencia | Mês ao qual a atividade se refere. | A avaliação de atividade ocorre por período mensal. |
-| ano_referencia | Ano correspondente ao período de atividade. | Utilizado junto ao mês para identificar o período. |
-| status_atividade | Situação do representante naquele período. | A situação mensal é independente da categoria já alcançada. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_atividade | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do registro mensal. |
+| mes_referencia | INT | NOT NULL, CHECK 1 a 12 | Mês de referência da atividade. |
+| ano_referencia | INT | NOT NULL | Ano de referência. |
+| status_atividade | VARCHAR | NOT NULL | Situação do representante no período. |
+| id_representante | INT | FK, NOT NULL | Representante avaliado. |
+
+**Restrição prevista:** a combinação `id_representante + mes_referencia + ano_referencia` deverá ser única.
 
 ### 5.7 COMISSAO
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_comissao | Identificador único da comissão. | Cada comissão deve ser registrada separadamente. |
-| tipo_comissao | Identifica a modalidade da comissão gerada. | A Trattos possui diferentes tipos de comissão e bonificação. |
-| valor_base | Valor utilizado como base para o cálculo. | Pode variar de acordo com o evento que gerou a comissão. |
-| percentual | Percentual aplicado sobre o valor-base. | Depende da modalidade de comissão. |
-| data_geracao | Data em que a comissão foi gerada. | Permite manter rastreabilidade financeira. |
-| status | Situação atual da comissão. | Pode representar etapas como geração, aprovação, pagamento ou cancelamento. |
-| data_pagamento | Data em que a comissão foi efetivamente paga. | Pode permanecer sem preenchimento enquanto a comissão não estiver paga. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_comissao | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da comissão. |
+| tipo_comissao | VARCHAR | NOT NULL | Modalidade da comissão gerada. |
+| valor_base | FLOAT | NOT NULL | Valor utilizado como base para o cálculo. |
+| percentual | FLOAT | NOT NULL | Percentual aplicado sobre o valor-base. |
+| data_geracao | DATE | NOT NULL | Data em que a comissão foi gerada. |
+| status | VARCHAR | NOT NULL | Situação da comissão. |
+| data_pagamento | DATE | aceita NULL | Data em que a comissão foi efetivamente paga. |
+| id_representante | INT | FK, NOT NULL | Representante beneficiário da comissão. |
 
-**Observação:** o valor da comissão não é armazenado diretamente. Ele será calculado a partir de `valor_base` e `percentual` quando necessário.
+**Observação:** `valor_comissao` não é armazenado no modelo lógico. O valor será calculado a partir de `valor_base` e `percentual` quando necessário.
 
 ### 5.8 VISITA
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_visita | Identificador único da visita. | Cada visita deve possuir registro próprio. |
-| data_visita | Data em que a visita ocorreu. | Permite formar o histórico de atendimento do cliente. |
-| observacoes | Informações registradas durante ou após a visita. | Utilizadas no acompanhamento do cliente. |
-| data_proxima_visita | Data prevista para o próximo acompanhamento. | Auxilia no planejamento dos próximos contatos. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_visita | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da visita. |
+| data_visita | DATE | NOT NULL | Data em que a visita ocorreu. |
+| observacoes | VARCHAR | aceita NULL | Observações do acompanhamento. |
+| data_proxima_visita | DATE | aceita NULL | Previsão do próximo contato. |
+| id_cliente | INT | FK, NOT NULL | Cliente que recebeu a visita. |
 
 ### 5.9 CONDICAO_SAUDE
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_condicao | Identificador único da condição de saúde registrada. | Um cliente pode possuir várias condições registradas. |
-| nome_condicao | Nome ou identificação da condição de saúde. | Diferencia as condições registradas para o mesmo cliente. |
-| data_inicio_sintomas | Data aproximada de início dos sintomas. | Informação relatada para acompanhamento. |
-| data_diagnostico | Data em que ocorreu o diagnóstico, quando conhecida. | Pode não existir em todas as condições. |
-| sintomas | Sintomas relacionados à condição. | Uma condição pode apresentar mais de um sintoma. |
-| medicamentos | Medicamentos relacionados ao tratamento ou acompanhamento. | Pode conter mais de um medicamento. |
-| alergias | Alergias relevantes informadas pelo cliente. | Deve permitir registrar mais de uma ocorrência quando necessário. |
-| historico_doenca | Histórico relacionado à condição de saúde. | Utilizado para manter contexto do acompanhamento do cliente. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_condicao | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da condição. |
+| nome_condicao | VARCHAR | NOT NULL | Nome ou identificação da condição de saúde. |
+| data_inicio_sintomas | DATE | aceita NULL | Data aproximada de início dos sintomas. |
+| data_diagnostico | DATE | aceita NULL | Data do diagnóstico, quando conhecida. |
+| historico_doenca | VARCHAR | aceita NULL | Histórico relacionado à condição. |
+| id_cliente | INT | FK, NOT NULL | Cliente ao qual a condição pertence. |
 
-### 5.10 PEDIDO
+Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN e passaram a possuir registros próprios.
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_pedido | Identificador único do pedido. | Cada pedido deve ser identificado individualmente. |
-| numero_pedido | Número comercial utilizado para identificar o pedido. | Utilizado para consultas e acompanhamento operacional. |
-| data_pedido | Data em que o pedido foi realizado. | Necessária para histórico e controle das operações. |
-| frete | Valor ou informação relacionada ao frete. | Aplicável quando houver envio do pedido. |
-| status_pedido | Situação atual do pedido. | Permite acompanhar processamento, separação, retirada ou envio. |
+### 5.10 CONDICAO_SINTOMA
 
-### 5.11 PAGAMENTO_PEDIDO
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_condicao_sintoma | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do sintoma registrado. |
+| sintoma | VARCHAR | NOT NULL | Sintoma relacionado à condição. |
+| id_condicao | INT | FK, NOT NULL | Condição de saúde à qual o sintoma pertence. |
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_pagamento_pedido | Identificador único do pagamento relacionado a pedido. | Cada parcela ou forma utilizada deve possuir registro próprio. |
-| data_pagamento | Data em que o pagamento ocorreu. | Necessária para histórico financeiro. |
-| valor | Valor pago naquele registro. | Um pedido pode possuir vários pagamentos. |
-| forma_pagamento | Forma utilizada no pagamento. | Uma mesma operação pode utilizar diferentes formas de pagamento. |
+### 5.11 CONDICAO_MEDICAMENTO
 
-### 5.12 PRODUTO
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_condicao_medicamento | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do medicamento registrado. |
+| medicamento | VARCHAR | NOT NULL | Medicamento relacionado à condição. |
+| id_condicao | INT | FK, NOT NULL | Condição de saúde à qual o medicamento está relacionado. |
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_produto | Identificador único do produto. | Deve identificar individualmente cada produto cadastrado. |
-| nome_produto | Nome do produto comercializado. | Utilizado em consultas, pedidos e vendas. |
-| preco_tabela | Preço de tabela atual do produto. | Serve como referência para descontos e operações comerciais. |
+### 5.12 CONDICAO_ALERGIA
 
-### 5.13 LOTE
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_condicao_alergia | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da alergia registrada. |
+| alergia | VARCHAR | NOT NULL | Alergia informada. |
+| id_condicao | INT | FK, NOT NULL | Condição de saúde à qual a informação está relacionada. |
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_lote | Identificador único do lote. | Cada lote deve possuir registro próprio. |
-| numero_lote | Número atribuído ao lote do produto. | Utilizado para rastreabilidade. |
-| data_fabricacao | Data de fabricação do lote. | Utilizada no controle dos produtos. |
-| data_validade | Data de validade do lote. | Deve ser considerada no controle de saída e validade do estoque. |
+### 5.13 PEDIDO
 
-### 5.14 VENDA
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_pedido | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do pedido. |
+| numero_pedido | VARCHAR | UNIQUE, NOT NULL | Número comercial utilizado para identificar o pedido. |
+| data_pedido | DATE | NOT NULL | Data de realização do pedido. |
+| frete | FLOAT | aceita NULL | Valor do frete, quando houver. |
+| status_pedido | VARCHAR | NOT NULL | Situação atual do pedido. |
+| id_representante | INT | FK, NOT NULL | Representante responsável pelo pedido. |
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_venda | Identificador único da venda. | Cada venda realizada deve possuir registro próprio. |
-| data_venda | Data em que a venda ocorreu. | Utilizada para consulta do histórico de compras do cliente. |
+### 5.14 PAGAMENTO_PEDIDO
 
-### 5.15 PAGAMENTO_VENDA
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_pagamento_pedido | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do pagamento. |
+| data_pagamento | DATE | NOT NULL | Data do pagamento. |
+| valor | FLOAT | NOT NULL | Valor pago naquele registro. |
+| forma_pagamento | VARCHAR | NOT NULL | Forma utilizada para o pagamento. |
+| id_pedido | INT | FK, NOT NULL | Pedido ao qual o pagamento pertence. |
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_pagamento_venda | Identificador único do pagamento da venda. | Cada pagamento deve ser registrado individualmente. |
-| data_pagamento | Data em que o pagamento ocorreu. | Necessária para histórico financeiro. |
-| valor | Valor recebido naquele pagamento. | Uma venda pode ser dividida em vários pagamentos. |
-| forma_pagamento | Forma utilizada para realizar o pagamento. | Uma venda pode utilizar diferentes formas de pagamento. |
+### 5.15 PRODUTO
 
-### 5.16 FORNECEDOR
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_produto | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do produto. |
+| nome_produto | VARCHAR | NOT NULL | Nome do produto comercializado. |
+| preco_tabela | FLOAT | NOT NULL | Preço de tabela atual do produto. |
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_fornecedor | Identificador único do fornecedor. | Deve identificar individualmente cada fornecedor cadastrado. |
-| cnpj | CNPJ do fornecedor. | Informação cadastral da empresa fornecedora. |
-| razao_social | Razão social do fornecedor. | Informação comercial e cadastral. |
-| nome_fantasia | Nome fantasia utilizado pelo fornecedor. | Informação comercial. |
-| endereco | Endereço do fornecedor. | Utilizado no cadastro comercial. |
-| data_abertura | Data de abertura da empresa fornecedora. | Informação cadastral. |
-| contato_responsavel | Nome ou identificação da pessoa de contato. | Utilizado na comunicação comercial. |
-| telefone | Telefone do fornecedor. | Meio de contato. |
-| whatsapp | Número de WhatsApp do fornecedor. | Meio de contato comercial. |
-| email | Endereço eletrônico do fornecedor. | Meio de contato comercial. |
-| website | Endereço do site do fornecedor. | Informação comercial quando existente. |
-| status_anvisa | Situação relacionada à ANVISA. | Utilizada no acompanhamento regulatório do fornecedor. |
-| data_anvisa | Data relacionada ao registro ou verificação da situação perante a ANVISA. | Permite acompanhar a atualização da informação regulatória. |
-| status_vigilancia_sanitaria | Situação perante a Vigilância Sanitária. | Informação utilizada na qualificação do fornecedor. |
-| data_inicio_vigilancia | Data inicial relacionada à situação sanitária. | Utilizada no acompanhamento documental. |
-| data_validade_vigilancia | Data de validade da documentação sanitária. | Auxilia no controle da regularidade do fornecedor. |
-| prazo_entrega | Prazo esperado para fornecimento dos produtos. | Utilizado no planejamento de reposição. |
-| formas_pagamento | Formas de pagamento aceitas pelo fornecedor. | Um fornecedor pode aceitar mais de uma forma de pagamento. |
+### 5.16 LOTE
 
-### 5.17 QUALIFICACAO_FORNECEDOR
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_lote | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do lote. |
+| numero_lote | VARCHAR | NOT NULL | Número de identificação do lote. |
+| data_fabricacao | DATE | NOT NULL | Data de fabricação. |
+| data_validade | DATE | NOT NULL | Data de validade. |
+| id_produto | INT | FK, NOT NULL | Produto ao qual o lote pertence. |
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| id_qualificacao_fornecedor | Identificador único da avaliação do fornecedor. | Cada avaliação deve possuir registro próprio. |
-| data_qualificacao | Data em que a qualificação foi realizada. | Permite construir histórico das avaliações. |
-| status | Resultado ou situação obtida na avaliação. | Representa a condição do fornecedor naquele momento. |
-| observacao | Observações relacionadas à avaliação. | Utilizadas para registrar informações relevantes sobre a qualificação. |
+**Restrição prevista:** `data_validade` deverá ser posterior à `data_fabricacao`.
 
-### 5.18 Atributos dos Relacionamentos
+### 5.17 VENDA
 
-Além dos atributos pertencentes diretamente às entidades, alguns dados do modelo conceitual pertencem aos próprios relacionamentos, pois descrevem características específicas da associação entre duas entidades.
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_venda | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da venda. |
+| data_venda | DATE | NOT NULL | Data em que a venda ocorreu. |
+| id_cliente | INT | FK, NOT NULL | Cliente responsável pela compra. |
 
-#### CONTEM — PEDIDO e PRODUTO
+### 5.18 PAGAMENTO_VENDA
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| quantidade | Quantidade do produto incluída no pedido. | Um pedido deve possuir pelo menos um produto. |
-| valor_unitario | Valor unitário considerado para aquele produto no pedido. | Deve representar o valor da operação no momento do pedido. |
-| desconto_item | Desconto aplicado especificamente ao produto naquele pedido. | Pode variar conforme as condições comerciais. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_pagamento_venda | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do pagamento. |
+| data_pagamento | DATE | NOT NULL | Data em que o pagamento ocorreu. |
+| valor | FLOAT | NOT NULL | Valor recebido naquele registro. |
+| forma_pagamento | VARCHAR | NOT NULL | Forma utilizada no pagamento. |
+| id_venda | INT | FK, NOT NULL | Venda à qual o pagamento pertence. |
 
-#### UTILIZA_LOTE — PEDIDO e LOTE
+### 5.19 FORNECEDOR
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| quantidade_lote | Quantidade retirada de determinado lote para atender o pedido. | Um pedido pode utilizar mais de um lote, inclusive do mesmo produto. |
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_fornecedor | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do fornecedor. |
+| cnpj | VARCHAR | UNIQUE, NOT NULL | CNPJ do fornecedor. |
+| razao_social | VARCHAR | NOT NULL | Razão social. |
+| nome_fantasia | VARCHAR | aceita NULL | Nome fantasia. |
+| endereco | VARCHAR | — | Endereço comercial. |
+| data_abertura | DATE | — | Data de abertura da empresa. |
+| contato_responsavel | VARCHAR | — | Pessoa de contato no fornecedor. |
+| telefone | VARCHAR | — | Telefone comercial. |
+| whatsapp | VARCHAR | — | WhatsApp comercial. |
+| email | VARCHAR | — | E-mail comercial. |
+| website | VARCHAR | aceita NULL | Site do fornecedor, quando houver. |
+| status_anvisa | VARCHAR | aceita NULL | Situação relacionada à ANVISA, quando aplicável. |
+| data_anvisa | DATE | aceita NULL | Data relacionada à verificação da situação na ANVISA. |
+| status_vigilancia_sanitaria | VARCHAR | aceita NULL | Situação perante a Vigilância Sanitária. |
+| data_inicio_vigilancia | DATE | aceita NULL | Data inicial da situação sanitária. |
+| data_validade_vigilancia | DATE | aceita NULL | Validade da documentação sanitária. |
+| prazo_entrega | INT | aceita NULL | Prazo esperado para entrega, em dias. |
 
-#### INCLUI — VENDA e PRODUTO
+`formas_pagamento` não permanece nesta tabela no modelo lógico porque foi normalizado em `FORNECEDOR_FORMA_PAGAMENTO`.
 
-| Atributo | Descrição | Regra de negócio associada |
-|----------|-----------|-----------------------------|
-| quantidade | Quantidade do produto vendida ao cliente. | Toda venda deve possuir pelo menos um produto. |
-| preco_tabela | Preço de tabela considerado no momento daquela venda. | Deve preservar a referência comercial utilizada na operação. |
-| preco_vendido | Preço efetivamente praticado na venda. | Pode ser diferente do preço de tabela. |
-| desconto_aplicado | Desconto aplicado ao produto na venda. | Deve representar a condição efetivamente concedida na operação. |
+### 5.20 FORNECEDOR_FORMA_PAGAMENTO
 
-**Observação sobre privacidade:** não são utilizados neste dicionário exemplos contendo nomes, documentos, endereços, telefones ou demais dados pessoais reais de clientes, representantes ou responsáveis da organização. Caso sejam necessários exemplos de valores em etapas futuras, serão utilizados apenas dados fictícios.
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_forma_pagamento | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da forma de pagamento cadastrada. |
+| forma_pagamento | VARCHAR | NOT NULL | Forma de pagamento aceita pelo fornecedor. |
+| id_fornecedor | INT | FK, NOT NULL | Fornecedor relacionado. |
+
+**Restrição prevista:** a combinação `id_fornecedor + forma_pagamento` deverá ser única.
+
+### 5.21 QUALIFICACAO_FORNECEDOR
+
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_qualificacao_fornecedor | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da avaliação. |
+| data_qualificacao | DATE | NOT NULL | Data da avaliação. |
+| status | VARCHAR | NOT NULL | Resultado ou situação da avaliação. |
+| observacao | VARCHAR | aceita NULL | Observações sobre a qualificação. |
+| id_fornecedor | INT | FK, NOT NULL | Fornecedor avaliado. |
+
+### 5.22 PEDIDO_PRODUTO
+
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_pedido | INT | PK composta, FK, NOT NULL | Pedido relacionado. |
+| id_produto | INT | PK composta, FK, NOT NULL | Produto relacionado. |
+| quantidade | INT | NOT NULL, maior que 0 | Quantidade do produto no pedido. |
+| valor_unitario | FLOAT | NOT NULL, não negativo | Valor unitário considerado no pedido. |
+| desconto_item | FLOAT | padrão 0 / não negativo | Desconto aplicado ao produto no pedido. |
+
+### 5.23 PEDIDO_LOTE
+
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_pedido | INT | PK composta, FK, NOT NULL | Pedido relacionado. |
+| id_lote | INT | PK composta, FK, NOT NULL | Lote utilizado. |
+| quantidade_lote | INT | NOT NULL, maior que 0 | Quantidade retirada daquele lote para o pedido. |
+
+### 5.24 VENDA_PRODUTO
+
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_venda | INT | PK composta, FK, NOT NULL | Venda relacionada. |
+| id_produto | INT | PK composta, FK, NOT NULL | Produto relacionado. |
+| quantidade | INT | NOT NULL, maior que 0 | Quantidade vendida. |
+| preco_tabela | FLOAT | NOT NULL, não negativo | Preço de tabela considerado no momento da venda. |
+| preco_vendido | FLOAT | NOT NULL, não negativo | Preço efetivamente praticado. |
+| desconto_aplicado | FLOAT | padrão 0 / não negativo | Desconto aplicado na operação. |
+
+### 5.25 FORNECEDOR_PRODUTO
+
+| Atributo | Tipo | Chave / Restrição | Descrição |
+|---|---|---|---|
+| id_fornecedor | INT | PK composta, FK, NOT NULL | Fornecedor relacionado. |
+| id_produto | INT | PK composta, FK, NOT NULL | Produto fornecido. |
+
+### 5.26 Observação sobre privacidade
+
+Os exemplos de massa de dados utilizados nas próximas etapas serão fictícios. Não serão incluídos nomes, documentos, telefones, endereços ou informações de saúde reais de clientes e representantes no banco utilizado para demonstração do trabalho.
+
+O arquivo `dicionario/dicionario-dados.html` deverá apresentar esta mesma estrutura atualizada, incluindo tipos, chaves e restrições do modelo lógico.
 
 ---
 ## 6. Modelagem Conceitual (Entidades, Atributos, Relacionamentos)
+
+> **Observação:** esta seção registra as decisões do DER conceitual da Entrega 1. Algumas estruturas foram transformadas no modelo lógico da Entrega 2, como a criação das tabelas associativas e a separação de atributos multivalorados durante a normalização.
+
 
 A modelagem conceitual foi construída a partir das informações obtidas durante a pesquisa de campo realizada com a Trattos. O objetivo foi representar os principais dados da organização, seus relacionamentos e as regras necessárias para manter consistência e evitar redundâncias desnecessárias.
 
@@ -834,7 +906,6 @@ Representam valores utilizados nas operações da Trattos, como:
 - valor de pagamento;
 - valor-base da comissão;
 - percentual de comissão;
-- valor da comissão;
 - percentual de desconto-base.
 
 #### Atributos de situação e histórico
@@ -1122,7 +1193,7 @@ As comissões dependem das regras e dos eventos que as originaram.
 
 Por esse motivo, não foi utilizado um atributo `percentual_comissao` em REPRESENTANTE.
 
-Cada registro de COMISSAO possui seu beneficiário, tipo, valor-base, percentual, valor calculado, data e situação.
+Cada registro de COMISSAO possui seu beneficiário, tipo, valor-base, percentual, data e situação. O valor final é calculado quando necessário a partir do valor-base e do percentual.
 
 Essa decisão também permite que um mesmo evento resulte em lançamentos diferentes para representantes distintos.
 
@@ -1538,7 +1609,8 @@ A estrutura prevista para a Entrega 2 é:
 - [x] Normalização em 1FN
 - [x] Normalização em 2FN
 - [x] Normalização em 3FN
-- [ ] Atualização final do dicionário de dados
+- [x] Atualização do dicionário de dados no README
+- [ ] Atualização do arquivo HTML do dicionário de dados
 - [ ] Script SQL
 - [ ] Massa de dados
 - [ ] Consultas gerenciais
@@ -1546,4 +1618,3 @@ A estrutura prevista para a Entrega 2 é:
 - [ ] Arquitetura de BI/IA
 - [ ] Tabela de rastreabilidade
 - [ ] Apresentação final
-
