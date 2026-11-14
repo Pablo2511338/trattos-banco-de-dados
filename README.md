@@ -18,14 +18,16 @@
 
   Além da estrutura interna, a operação envolve uma rede de representantes responsáveis pela aquisição e comercialização dos produtos, atendimento e acompanhamento de clientes, realização de pedidos e desenvolvimento da rede comercial.
 
+  Na entrevista foram confirmadas **duas pessoas atuando diretamente na operação interna**. Não foram informados quantitativos oficiais de representantes ativos, clientes cadastrados ou pedidos mensais; por isso, esses números não foram inventados no trabalho e a massa de dados utilizada na implementação é fictícia, servindo apenas para testes acadêmicos.
+
   O ingresso de novos representantes ocorre mediante aquisição de um kit convertido em produtos. Após o ingresso, os representantes podem evoluir de categoria conforme regras comerciais e metas definidas pela organização, além de participar do sistema de comissões e bonificações.
 
 - **Problemas e necessidades identificados:**  
   Durante o levantamento de requisitos foi identificado que a Trattos já utiliza recursos tecnológicos em parte de sua operação. A empresa possui um sistema interno para controle de pedidos e estoque, utiliza a plataforma Bling para emissão de notas fiscais e utiliza o WhatsApp como importante canal de comunicação com os representantes, inclusive para pedidos e envio de comprovantes de pagamento.
 
-  Entretanto, uma das principais dificuldades identificadas está no **controle e pagamento das comissões dos representantes**, processo que atualmente ocorre de maneira semiautomatizada. A existência de diferentes categorias, qualificações, níveis da rede, metas e modalidades de comissão aumenta a necessidade de manter informações organizadas e rastreáveis.
+  - **P1 — Controle e pagamento de comissões:** uma das principais dificuldades identificadas está no **controle e pagamento das comissões dos representantes**, processo que atualmente ocorre de maneira semiautomatizada. A existência de diferentes categorias, qualificações, níveis da rede, metas e modalidades de comissão aumenta a necessidade de manter informações organizadas e rastreáveis.
 
-  Também foi identificada a necessidade de centralizar informações atualmente relacionadas a diferentes processos, tais como cadastro e acompanhamento de clientes, histórico de visitas, pedidos, produtos, lotes, estoque, pagamentos, fornecedores, qualificações, vendas, atividade dos representantes e comissões.
+  - **P2 — Centralização das informações operacionais:** também foi identificada a necessidade de centralizar informações relacionadas a cadastro e acompanhamento de clientes, histórico de visitas, pedidos, produtos, lotes, pagamentos, fornecedores, qualificações, vendas, atividade dos representantes e comissões.
 
   Dessa forma, uma das necessidades apresentadas pela própria organização é a possibilidade de possuir um **escritório virtual para os representantes**, permitindo acompanhar clientes, pedidos, pagamentos, desempenho da equipe, produção e comissões em um ambiente integrado.
 
@@ -210,8 +212,8 @@ Os requisitos funcionais representam as ações e funcionalidades que o sistema 
 - **RF14 — Controlar lotes dos produtos:**  
   O sistema deve permitir cadastrar os lotes dos produtos, incluindo número do lote, data de fabricação e data de validade.
 
-- **RF15 — Consultar estoque:**  
-  O sistema deve permitir consultar a disponibilidade dos produtos e lotes existentes no estoque.
+- **RF15 — Consultar lotes e movimentações associadas aos pedidos:**  
+  O sistema deve permitir consultar os lotes cadastrados, suas datas de fabricação e validade e as quantidades retiradas em pedidos. O controle quantitativo completo de saldo atual de estoque depende do registro das entradas e é tratado como possibilidade de evolução do modelo.
 
 - **RF16 — Registrar pedidos:**  
   O sistema deve permitir registrar os pedidos realizados pelos representantes, incluindo número do pedido, data, produtos, quantidades, valores unitários, descontos e frete.
@@ -465,7 +467,7 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
   Informações relacionadas à ANVISA e à Vigilância Sanitária devem ser registradas quando aplicáveis ao fornecedor.
 
 - **RN39 — Reposição de estoque:**  
-  A necessidade de compra junto aos fornecedores pode ser identificada por meio de relatórios periódicos, alertas de estoque baixo e análise da saída dos produtos.
+  A organização informou que a necessidade de compra junto aos fornecedores é identificada por relatórios periódicos, alertas de estoque baixo e análise da saída dos produtos. No modelo acadêmico atual, são registrados produtos, lotes e quantidades utilizadas nos pedidos; o controle quantitativo completo das entradas e do saldo de estoque fica indicado como evolução futura.
 
 - **RN40 — Consulta de equipe e comissões:**  
   Informações sobre desempenho da equipe e comissões devem ser acessíveis apenas a usuários autorizados.
@@ -1439,166 +1441,386 @@ As demais tabelas foram revisadas e não encontramos outras dependências transi
 
 Depois dessas alterações, consideramos o modelo lógico adequado à 1FN, 2FN e 3FN.
 
-### 9.4 Restrições que serão aplicadas no SQL
+### 9.4 Restrições implementadas no SQL
 
-Além das PKs e FKs, algumas regras serão implementadas diretamente no script MySQL.
+As restrições do modelo lógico foram levadas para o script MySQL sempre que puderam ser representadas diretamente no banco.
 
-Entre elas estão:
+Entre as principais estão:
 
-- `codigo_representante` não poderá se repetir;
-- `numero_pedido` não poderá se repetir;
-- o CNPJ de fornecedor não poderá se repetir;
-- quantidades deverão ser maiores que zero;
-- valores monetários não deverão aceitar valores negativos;
-- percentuais deverão ficar dentro dos limites definidos para cada regra;
-- `mes_referencia` deverá aceitar somente valores de 1 a 12;
-- o mesmo representante não deverá possuir dois registros de atividade para o mesmo mês e ano;
-- uma mesma forma de pagamento não deverá ser repetida para o mesmo fornecedor;
-- a data de validade do lote deverá ser posterior à data de fabricação.
+- `codigo_representante` com valor único, de acordo com a necessidade de identificação individual do representante;
+- `numero_pedido` com valor único;
+- CPF de representante e cliente com restrição de unicidade nos dados de teste;
+- CNPJ do fornecedor com valor único;
+- `INGRESSO.id_representante` único, preservando a relação 1:1 prevista na RN06;
+- combinação `id_representante + mes_referencia + ano_referencia` única em `ATIVIDADE_MENSAL`, de acordo com a RN14;
+- `mes_referencia` limitado ao intervalo de 1 a 12;
+- quantidades maiores que zero nas tabelas associativas;
+- valores monetários não negativos;
+- percentuais limitados a valores válidos;
+- data de validade do lote posterior à data de fabricação;
+- combinação `id_fornecedor + forma_pagamento` única em `FORNECEDOR_FORMA_PAGAMENTO`;
+- chaves estrangeiras para preservar os relacionamentos previstos no modelo lógico.
 
-As restrições serão implementadas com recursos como `NOT NULL`, `UNIQUE`, `CHECK`, `DEFAULT` e chaves estrangeiras.
+Os valores monetários e percentuais que no BRModelo aparecem como `FLOAT` foram implementados no MySQL com `DECIMAL`, oferecendo maior precisão para operações financeiras.
 
 ### 9.5 Diagrama do Modelo Lógico
 
-O modelo lógico foi desenvolvido no BRModelo Web e será mantido na pasta `diagramas`.
+O modelo lógico foi construído no **BRModelo Web** e apresenta as 25 tabelas da solução, com suas colunas, tipos de dados, chaves primárias, chaves estrangeiras e cardinalidades já convertidas.
 
-**Arquivo:**
+**Arquivo previsto no repositório:**
 
 `diagramas/Modelo_Logico_Trattos.png`
 
-> Observação: o dicionário de dados será atualizado para acompanhar o modelo lógico e as restrições definidas nesta etapa.
+O modelo completo também pode ser disponibilizado por link público do BRModelo para facilitar a visualização em alta resolução durante a apresentação.
 
 ---
-## 10. Uso de Inteligência Artificial
 
-Foi utilizado o **ChatGPT (OpenAI)** como ferramenta de apoio durante algumas etapas do projeto.
+## 10. Apontamentos da Correção da Entrega 1
+
+A Entrega 2 exige que os apontamentos recebidos na correção da Entrega 1 sejam relacionados às alterações realizadas no trabalho.
+
+> **Atenção:** os apontamentos oficiais do professor não estavam presentes no material utilizado para esta revisão. O grupo deve substituir a tabela abaixo pelos comentários efetivamente recebidos na correção da Entrega 1. Não é adequado inventar feedback do professor.
+
+| Apontamento da correção da E1 | O que mudou no trabalho | Por quê |
+|---|---|---|
+| **Preencher com o apontamento oficial recebido** | Descrever a alteração realizada | Explicar por que a correção foi necessária |
+| **Preencher com o próximo apontamento, se houver** | Descrever a alteração realizada | Explicar por que a correção foi necessária |
+
+---
+
+## 11. Implementação SQL
+
+A implementação foi preparada para **MySQL 8.0+** no arquivo:
+
+`docs/script.sql`
+
+O script foi organizado para conter:
+
+1. criação do banco `trattos_db`;
+2. criação das 25 tabelas;
+3. definição de chaves primárias, chaves estrangeiras e restrições;
+4. inserção de massa de dados fictícia;
+5. consultas com `JOIN`;
+6. exemplos controlados de `UPDATE`;
+7. exemplos controlados de `DELETE`;
+8. consultas gerenciais identificadas por `G01`, `G02`, `G03` e assim por diante;
+9. consultas de auditoria identificadas por `A01`, `A02` e assim por diante.
+
+O script foi revisado para manter coerência com o modelo lógico final. Entre as correções realizadas estão:
+
+- inclusão de `codigo_representante` e `id_patrocinador` em `REPRESENTANTE`;
+- inclusão de `id_treinador` em `QUALIFICACAO`;
+- utilização de `ATIVIDADE_MENSAL` em vez de atividade semanal;
+- utilização de `QUALIFICACAO_FORNECEDOR` em vez de qualificação de produto;
+- correção do nome `CONDICAO_ALERGIA`;
+- utilização das categorias R30 e R40;
+- valor fictício do ingresso ajustado para R$ 500,00, conforme o levantamento;
+- utilização de produtos fictícios compatíveis com o segmento de suplementos da Trattos;
+- utilização de `DECIMAL` para valores financeiros e percentuais no MySQL.
+
+### 11.1 Validação do script
+
+A versão atual do script deve ser executada integralmente em um banco MySQL vazio para confirmar que todas as tabelas, restrições, inserções e consultas são executadas sem erro.
+
+Essa validação final deve ser realizada antes da entrega e antes da demonstração em sala.
+
+---
+
+## 12. Massa de Dados
+
+A massa de dados utilizada no script é **fictícia**, criada apenas para permitir testes das regras, relacionamentos e consultas do projeto.
+
+Os exemplos procuram representar situações compatíveis com o funcionamento levantado na Trattos, incluindo:
+
+- representantes com relações de patrocínio;
+- representantes em categorias R30 e R40;
+- clientes vinculados a representantes;
+- clientes com previsão de próxima compra;
+- pedidos em situações diferentes;
+- vendas em períodos diferentes;
+- pagamentos por diferentes formas;
+- comissões pendentes e pagas;
+- produtos do segmento de suplementos alimentares;
+- lotes com diferentes datas de fabricação e validade;
+- fornecedores e suas formas de pagamento;
+- qualificações de fornecedores;
+- registros de visitas e acompanhamento de clientes.
+
+Nenhum dado pessoal real de cliente ou representante é utilizado na massa de demonstração.
+
+### 12.1 Coerência do volume
+
+A entrevista confirmou duas pessoas atuando diretamente na operação interna da Trattos, mas não informou números oficiais de representantes ativos, clientes ou pedidos mensais.
+
+Por esse motivo, o grupo não utiliza a quantidade de registros fictícios como estimativa do tamanho real da operação. A massa de dados foi dimensionada apenas para permitir a demonstração acadêmica das consultas e regras do banco.
+
+---
+
+## 13. Consultas Gerenciais, Auditoria, BI e IA
+
+A partir dos dados armazenados no banco da Trattos, foram definidas consultas gerenciais e de auditoria para transformar registros operacionais em informações úteis para acompanhamento da organização.
+
+As consultas gerenciais são identificadas pela letra `G`, enquanto as consultas de auditoria são identificadas pela letra `A`.
+
+### 13.1 Consultas gerenciais
+
+- **G01 — Clientes e seus representantes:** permite identificar quais clientes estão associados a cada representante.
+
+- **G02 — Quantidade de vendas e receita por cliente:** permite verificar quantas compras cada cliente realizou e o valor total gerado por ele.
+
+- **G03 — Produtos mais vendidos:** apresenta a quantidade vendida de cada produto, o faturamento gerado e o preço médio praticado.
+
+- **G04 — Vendas por dia:** apresenta a quantidade de vendas e o faturamento obtido em cada dia registrado.
+
+- **G05 — Valor dos pedidos:** calcula o valor dos itens de cada pedido, considerando quantidade, valor unitário, desconto e frete.
+
+- **G06 — Lotes próximos da validade:** identifica lotes com vencimento previsto para os próximos 60 dias.
+
+- **G07 — Comissões pendentes:** identifica as comissões ainda não pagas e calcula o valor correspondente a partir do valor-base e do percentual registrado.
+
+- **G08 — Acompanhamento de clientes:** reúne informações sobre condições registradas, visitas realizadas e previsão de próximos contatos.
+
+- **G09 — Clientes com próxima compra prevista em atraso:** identifica clientes cuja data prevista para nova compra já passou, auxiliando o representante no acompanhamento comercial.
+
+### 13.2 Consultas de auditoria
+
+- **A01 — Diferença entre valor da venda e pagamentos registrados:** compara o valor total dos itens vendidos com o total dos pagamentos registrados. Uma diferença não significa automaticamente erro ou fraude, pois pode representar pagamento parcial, mas indica uma situação que deve ser verificada.
+
+- **A02 — Produtos sem fornecedor cadastrado:** identifica produtos que ainda não possuem relacionamento com nenhum fornecedor.
+
+### 13.3 Indicadores gerenciais — KPIs
+
+Os dados do banco permitem calcular indicadores que podem apoiar a gestão da Trattos.
+
+#### KPI 1 — Faturamento por período
+
+**Objetivo:** acompanhar quanto foi vendido em determinado período.
+
+**Fórmula:** soma de `quantidade × preco_vendido`.
+
+**Periodicidade sugerida:** diária ou mensal.
+
+**Tabelas:** `VENDA` e `VENDA_PRODUTO`.
+
+**Consulta:** `G04`.
+
+#### KPI 2 — Produtos com maior volume de vendas
+
+**Objetivo:** identificar quais produtos possuem maior saída.
+
+**Fórmula:** soma das unidades vendidas de cada produto.
+
+**Periodicidade sugerida:** mensal.
+
+**Tabelas:** `PRODUTO` e `VENDA_PRODUTO`.
+
+**Consulta:** `G03`.
+
+#### KPI 3 — Receita gerada por cliente
+
+**Objetivo:** acompanhar quanto cada cliente representa em vendas.
+
+**Fórmula:** soma de `quantidade × preco_vendido` das vendas de cada cliente.
+
+**Periodicidade sugerida:** mensal ou acumulada.
+
+**Tabelas:** `CLIENTE`, `VENDA` e `VENDA_PRODUTO`.
+
+**Consulta:** `G02`.
+
+#### KPI 4 — Valor de comissões pendentes
+
+**Objetivo:** acompanhar valores ainda não pagos aos representantes.
+
+**Fórmula:** `valor_base × percentual / 100` para as comissões com situação pendente.
+
+**Periodicidade sugerida:** mensal.
+
+**Tabelas:** `COMISSAO` e `REPRESENTANTE`.
+
+**Consulta:** `G07`.
+
+#### KPI 5 — Clientes com recompra prevista em atraso
+
+**Objetivo:** identificar clientes que ultrapassaram a previsão de nova compra.
+
+**Fórmula:** quantidade de clientes com `data_prevista_proxima_compra` anterior à data atual.
+
+**Periodicidade sugerida:** semanal.
+
+**Tabelas:** `CLIENTE` e `REPRESENTANTE`.
+
+**Consulta:** `G09`.
+
+#### KPI 6 — Lotes próximos da validade
+
+**Objetivo:** acompanhar lotes que se aproximam do vencimento.
+
+**Fórmula:** quantidade de lotes cuja validade esteja entre a data atual e os próximos 60 dias.
+
+**Periodicidade sugerida:** semanal.
+
+**Tabelas:** `LOTE` e `PRODUTO`.
+
+**Consulta:** `G06`.
+
+> **Observação sobre estoque:** o levantamento da organização cita controle de entradas, saídas e alertas de estoque baixo. O modelo acadêmico atual registra lotes e as quantidades utilizadas nos pedidos, mas não possui uma estrutura completa de movimentação de entrada com saldo quantitativo atual. Por isso, “estoque baixo” não foi apresentado como KPI calculável nesta versão. Uma tabela de movimentação de estoque pode ser acrescentada em uma evolução futura do sistema.
+
+### 13.4 Potencial para Business Intelligence — BI
+
+Os dados centralizados podem alimentar relatórios e dashboards de Business Intelligence.
+
+Entre as visualizações possíveis estão:
+
+- faturamento por período;
+- produtos mais vendidos;
+- receita por cliente;
+- desempenho comercial dos representantes;
+- situação dos pedidos;
+- acompanhamento das comissões;
+- clientes com previsão de recompra em atraso;
+- lotes próximos da validade;
+- histórico de vendas e pagamentos.
+
+O BI ajudaria a administração a visualizar tendências e comparar resultados sem depender da leitura manual de registros individuais.
+
+### 13.5 Potencial para Inteligência Artificial
+
+Com uma base histórica maior e dados confiáveis, o banco também poderia alimentar aplicações futuras de Inteligência Artificial.
+
+Exemplos:
+
+- identificar padrões de compra dos clientes;
+- estimar períodos de maior procura por determinados produtos;
+- identificar clientes com maior probabilidade de realizar uma nova compra;
+- recomendar quais clientes devem receber acompanhamento dos representantes;
+- analisar padrões de desempenho comercial;
+- identificar situações fora do padrão que mereçam verificação administrativa.
+
+Essas aplicações **não fazem parte da implementação atual**. São possibilidades futuras baseadas nos dados que o sistema passa a organizar.
+
+### 13.6 Rastreabilidade entre problemas, KPIs e consultas
+
+| Problema ou KPI | Tabelas envolvidas | Consulta no script |
+|---|---|---|
+| **P1 — Controle e pagamento de comissões semiautomatizado** | `COMISSAO`, `REPRESENTANTE` | `G07` |
+| **P2 — Necessidade de centralizar informações de clientes e representantes** | `CLIENTE`, `REPRESENTANTE` | `G01` |
+| **KPI — Faturamento por período** | `VENDA`, `VENDA_PRODUTO` | `G04` |
+| **KPI — Produtos mais vendidos** | `PRODUTO`, `VENDA_PRODUTO` | `G03` |
+| **KPI — Receita por cliente** | `CLIENTE`, `VENDA`, `VENDA_PRODUTO` | `G02` |
+| **KPI — Comissões pendentes** | `COMISSAO`, `REPRESENTANTE` | `G07` |
+| **KPI — Clientes com recompra prevista em atraso** | `CLIENTE`, `REPRESENTANTE` | `G09` |
+| **KPI — Lotes próximos da validade** | `LOTE`, `PRODUTO` | `G06` |
+
+Dessa forma, os problemas e indicadores apresentados ficam ligados a dados existentes no modelo e a consultas concretas do script SQL.
+
+---
+
+## 14. Uso de Inteligência Artificial
+
+Foi utilizado o **ChatGPT (OpenAI)** como ferramenta de apoio em diferentes etapas do trabalho.
+
+A IA foi utilizada como suporte para revisão, organização e conferência. As decisões finais foram feitas pelo grupo, comparando as sugestões com a entrevista, o modelo desenvolvido, os materiais da disciplina e as orientações do professor.
 
 ### Uso 1 — Apoio à modelagem conceitual
 
 | Item | Registro |
-|------|----------|
+|---|---|
 | **Ferramenta e etapa** | ChatGPT — revisão do DER e das regras de negócio. |
 | **Motivação** | Auxiliar na identificação de possíveis redundâncias, cardinalidades e alternativas de modelagem. |
 | **Prompt(s) utilizados** | “Analise o DER da Trattos com base nas informações levantadas e nas orientações do professor e indique possíveis correções.” |
 | **Resposta recebida** | Sugestões de organização de entidades, relacionamentos e cardinalidades. |
 | **Fontes consultadas e verificadas** | Entrevista com o responsável pela Trattos, materiais da disciplina e orientações do professor. |
-| **Trechos rejeitados ou corrigidos** | Algumas sugestões foram alteradas, incluindo entidades intermediárias e relacionamentos considerados redundantes. |
-| **Justificativa da escolha final** | Foram mantidas apenas as sugestões compatíveis com as regras reais da empresa e com o modelo conceitual solicitado. |
-| **Reflexão crítica** | As respostas da IA precisaram ser verificadas, pois algumas alternativas não se adequavam ao nível de modelagem esperado. |
+| **Trechos rejeitados ou corrigidos** | Algumas sugestões foram alteradas ou rejeitadas quando não correspondiam ao levantamento real. |
+| **Justificativa da escolha final** | Foram mantidas apenas as sugestões compatíveis com as regras reais da organização e com o modelo solicitado. |
+| **Reflexão crítica** | A IA pode sugerir estruturas que não correspondem ao processo real; por isso, a entrevista e as regras do projeto prevaleceram. |
 
-### Uso 2 — Apoio à organização da documentação
-
-| Item | Registro |
-|------|----------|
-| **Ferramenta e etapa** | ChatGPT — organização e revisão textual do README. |
-| **Motivação** | Auxiliar na organização das informações levantadas conforme a estrutura solicitada na atividade. |
-| **Prompt(s) utilizados** | “Organize as informações levantadas sobre a Trattos seguindo a estrutura do README fornecida pelo professor, sem inventar dados.” |
-| **Resposta recebida** | Sugestões de estruturação e redação das seções do README. |
-| **Fontes consultadas e verificadas** | Pesquisa de campo, documentos do grupo, DER final e esqueleto oficial da atividade. |
-| **Trechos rejeitados ou corrigidos** | Foram revisados conteúdos que não correspondiam ao levantamento ou ao DER final. |
-| **Justificativa da escolha final** | Foram utilizados apenas textos compatíveis com as informações verificadas pelo grupo. |
-| **Reflexão crítica** | A IA foi útil para organização e revisão, mas o conteúdo precisou ser conferido com as fontes reais do projeto.
-
-### Uso 3 — Apoio à conversão para o modelo lógico e normalização
+### Uso 2 — Organização e revisão do README
 
 | Item | Registro |
-|------|----------|
+|---|---|
+| **Ferramenta e etapa** | ChatGPT — organização e revisão textual da documentação. |
+| **Motivação** | Auxiliar na organização do conteúdo conforme o esqueleto da Entrega 2. |
+| **Prompt(s) utilizados** | “Organize e revise o README da Trattos conforme a Entrega 2, sem inventar dados da organização.” |
+| **Resposta recebida** | Sugestões de estruturação, revisão de textos e identificação de seções incompletas. |
+| **Fontes consultadas e verificadas** | Entrevista, DER, modelo lógico, dicionário, script e enunciado da Entrega 2. |
+| **Trechos rejeitados ou corrigidos** | Dados não confirmados pela entrevista não foram adicionados como fatos. |
+| **Justificativa da escolha final** | O texto final foi mantido somente quando compatível com os materiais do grupo. |
+| **Reflexão crítica** | A IA facilita a organização, mas não substitui a verificação das exigências do professor nem das informações reais da organização. |
+
+### Uso 3 — Conversão para o modelo lógico e normalização
+
+| Item | Registro |
+|---|---|
 | **Ferramenta e etapa** | ChatGPT — apoio na revisão do modelo lógico e das formas normais. |
-| **Motivação** | Ajudar a conferir a conversão dos relacionamentos, as chaves e possíveis problemas de normalização. |
-| **Prompt(s) utilizados** | “Revise o modelo lógico da Trattos e me ajude a verificar 1FN, 2FN e 3FN sem alterar as regras reais da empresa.” |
-| **Resposta recebida** | Sugestões para criação das tabelas associativas, separação de campos multivalorados e revisão de dependências. |
-| **Fontes consultadas e verificadas** | DER da Entrega 1, modelo lógico construído no BRModelo, regras de negócio, entrevista e orientações da disciplina. |
-| **Trechos rejeitados ou corrigidos** | Algumas sugestões foram revistas durante a construção para manter o modelo de acordo com o que realmente foi levantado. |
-| **Justificativa da escolha final** | Só foram aplicadas alterações que conseguimos justificar pelas regras do negócio e pelos conceitos de modelagem estudados. |
-| **Reflexão crítica** | A IA ajudou principalmente na conferência, mas as decisões finais foram feitas comparando as sugestões com o modelo, a entrevista e as orientações do professor. |
+| **Motivação** | Conferir a transformação dos relacionamentos, chaves e possíveis problemas de 1FN, 2FN e 3FN. |
+| **Prompt(s) utilizados** | “Revise o modelo lógico da Trattos e verifique 1FN, 2FN e 3FN sem alterar as regras reais da empresa.” |
+| **Resposta recebida** | Sugestões de tabelas associativas, separação de campos multivalorados e eliminação de redundâncias. |
+| **Fontes consultadas e verificadas** | DER conceitual, modelo lógico do BRModelo, regras de negócio, entrevista e material da disciplina. |
+| **Trechos rejeitados ou corrigidos** | Sugestões que alterariam as regras reais da Trattos foram descartadas. |
+| **Justificativa da escolha final** | Só foram aplicadas mudanças que puderam ser justificadas pelo modelo e pelas formas normais. |
+| **Reflexão crítica** | A normalização sugerida por IA precisou ser conferida manualmente, principalmente em informações históricas e atributos derivados. |
+
+### Uso 4 — Revisão do script SQL e massa de dados
+
+| Item | Registro |
+|---|---|
+| **Ferramenta e etapa** | ChatGPT — revisão técnica do script MySQL e da massa de dados. |
+| **Motivação** | Comparar o SQL gerado com o modelo lógico final e identificar divergências. |
+| **Prompt(s) utilizados** | “Compare o script SQL com o modelo lógico final da Trattos e corrija estruturas, nomes, chaves e dados fictícios que estejam incoerentes.” |
+| **Resposta recebida** | Foram identificadas divergências em patrocinador, treinador, atividade mensal, qualificação de fornecedor, nomes de tabelas e massa de dados. |
+| **Fontes consultadas e verificadas** | Modelo lógico, dicionário, entrevista e script MySQL. |
+| **Trechos rejeitados ou corrigidos** | Categorias genéricas como Bronze/Prata/Ouro e medicamentos incompatíveis com o segmento foram substituídos por exemplos coerentes com R30/R40 e suplementos. |
+| **Justificativa da escolha final** | A massa de dados deve ser fictícia, mas coerente com o funcionamento e o segmento da organização. |
+| **Reflexão crítica** | A geração automática de SQL ou dados pode produzir estruturas sintaticamente válidas, mas semanticamente incompatíveis com o negócio. |
+
+### Uso 5 — Consultas, KPIs, BI e IA
+
+| Item | Registro |
+|---|---|
+| **Ferramenta e etapa** | ChatGPT — apoio à organização das consultas gerenciais, KPIs e proposta analítica. |
+| **Motivação** | Relacionar os problemas da organização às informações que o banco consegue calcular. |
+| **Prompt(s) utilizados** | “Defina KPIs e possibilidades de BI/IA para a Trattos usando somente dados existentes no modelo e consultas do script.” |
+| **Resposta recebida** | Sugestões de faturamento, produtos mais vendidos, receita por cliente, comissões pendentes, recompra e validade de lotes. |
+| **Fontes consultadas e verificadas** | Modelo lógico, consultas SQL e exigências da Entrega 2. |
+| **Trechos rejeitados ou corrigidos** | O indicador de estoque baixo não foi mantido como KPI porque o modelo atual não possui dados suficientes para calcular o saldo quantitativo completo com segurança. |
+| **Justificativa da escolha final** | Foram mantidos apenas KPIs calculáveis a partir das tabelas e consultas existentes. |
+| **Reflexão crítica** | Um indicador só foi considerado válido quando havia dados e consulta SQL capazes de calculá-lo. |
 
 ---
-## 11. Implementação SQL
 
-Esta parte será desenvolvida na próxima etapa da Entrega 2.
+## 15. Estrutura do Repositório
 
-O script será feito em MySQL e deverá conter, na ordem:
-
-1. criação do banco de dados;
-2. criação das tabelas;
-3. definição das chaves e restrições;
-4. inserção da massa de dados;
-5. consultas com `JOIN`;
-6. exemplos de `UPDATE`;
-7. exemplos de `DELETE`;
-8. consultas gerenciais;
-9. consultas de auditoria.
-
-O arquivo será salvo como:
-
-`docs/script.sql`
-
----
-## 12. Massa de Dados
-
-A massa de dados será fictícia, mas baseada nas situações reais identificadas durante o levantamento.
-
-Pretendemos incluir exemplos variados, como:
-
-- representantes em situações diferentes;
-- clientes com e sem compras;
-- pedidos concluídos e cancelados;
-- diferentes formas de pagamento;
-- produtos e lotes com datas variadas;
-- situações de estoque baixo;
-- fornecedores e qualificações;
-- comissões em diferentes situações.
-
-Não serão utilizados dados pessoais reais de clientes ou representantes.
-
----
-## 13. Consultas Gerenciais, Auditoria e BI/IA
-
-As consultas gerenciais serão identificadas como `G01`, `G02`, `G03` e assim por diante.
-
-As consultas de auditoria serão identificadas como `A01`, `A02`, `A03` e assim por diante.
-
-Cada consulta será acompanhada de uma explicação simples sobre a pergunta que ela responde e sua relação com os problemas e regras de negócio levantados.
-
-Também será montada uma parte de BI/IA mostrando como os dados do banco podem ajudar no acompanhamento da operação, principalmente em pontos como:
-
-- comissões;
-- desempenho dos representantes;
-- pedidos e vendas;
-- clientes sem compra recente;
-- produtos com maior saída;
-- estoque baixo;
-- lotes próximos da validade;
-- desempenho dos fornecedores.
-
-Essa seção será finalizada depois que as consultas SQL estiverem prontas, para que os indicadores fiquem ligados aos dados realmente disponíveis no banco.
-
----
-## 14. Estrutura do Repositório
-
-A estrutura prevista para a Entrega 2 é:
+A organização final sugerida para a branch `main` é:
 
 ```text
 /
 ├── README.md
 ├── diagramas/
-│   ├── README.md
 │   ├── DER_Trattos_Conceitual.png
 │   └── Modelo_Logico_Trattos.png
 ├── dicionario/
 │   └── dicionario-dados.html
-├── pesquisa/
-│   └── entrevista_trattos.md
-└── docs/
-    └── script.sql
+├── levantamento/
+│   ├── levantamento.md
+│   └── evidencias/
+│       └── fotos-da-organizacao.jpg
+├── docs/
+│   └── script.sql
+└── apresentacao/
+    └── slides-ou-link.md
 ```
 
+Todos os arquivos utilizados para correção devem estar acessíveis pela branch `main`.
+
+O histórico de commits deve demonstrar participação equilibrada entre os integrantes, com cada membro utilizando sua própria conta do GitHub.
+
 ---
-## 15. Situação atual do projeto
 
-**Andamento da Entrega 2:**
+## 16. Situação Atual da Entrega 2
 
-- [x] Pesquisa de campo e levantamento da organização
+- [x] Pesquisa de campo e entrevista com a organização
+- [x] Caracterização da Trattos
 - [x] Processos de negócio
 - [x] Requisitos funcionais e não funcionais
 - [x] Regras de negócio
@@ -1609,12 +1831,33 @@ A estrutura prevista para a Entrega 2 é:
 - [x] Normalização em 1FN
 - [x] Normalização em 2FN
 - [x] Normalização em 3FN
-- [x] Atualização do dicionário de dados no README
-- [ ] Atualização do arquivo HTML do dicionário de dados
-- [ ] Script SQL
-- [ ] Massa de dados
-- [ ] Consultas gerenciais
-- [ ] Consultas de auditoria
-- [ ] Arquitetura de BI/IA
-- [ ] Tabela de rastreabilidade
-- [ ] Apresentação final
+- [x] Dicionário de dados lógico preparado
+- [x] Script SQL revisado para alinhamento com o modelo lógico
+- [x] Massa de dados fictícia preparada
+- [x] Consultas gerenciais definidas
+- [x] Consultas de auditoria definidas
+- [x] KPIs definidos
+- [x] Proposta de BI/IA definida
+- [x] Tabela de rastreabilidade definida
+- [x] Estrutura da apresentação final preparada
+- [ ] Teste final do script completo no MySQL Workbench
+- [ ] Sincronização final do dicionário HTML com o script testado
+- [ ] Inserção dos apontamentos oficiais da correção da Entrega 1
+- [ ] Conferência das evidências da organização no repositório
+- [ ] Conferência da distribuição de commits entre os integrantes
+- [ ] Revisão final dos slides após validação do SQL
+- [ ] Treino do pitch de até 8 minutos e da defesa individual
+
+---
+
+## 17. Considerações Finais
+
+O projeto foi desenvolvido a partir de uma organização real e de informações obtidas em pesquisa de campo.
+
+A principal necessidade identificada foi o controle e pagamento de comissões dos representantes, atualmente semiautomatizado, juntamente com a necessidade de centralizar informações de clientes, pedidos, vendas, pagamentos e demais processos relacionados.
+
+O modelo proposto organiza essas informações em uma estrutura relacional, preservando históricos e permitindo consultas gerenciais e de auditoria.
+
+Além de atender à implementação acadêmica em MySQL, a estrutura criada pode servir como base para evoluções futuras, como um escritório virtual para representantes, dashboards de BI e aplicações analíticas apoiadas por Inteligência Artificial.
+
+O desenvolvimento também evidenciou a importância de manter coerência entre entrevista, regras de negócio, DER, modelo lógico, dicionário de dados e script SQL. Cada etapa foi revisada para reduzir divergências e evitar a inclusão de informações que não pudessem ser justificadas pelo levantamento ou pelo modelo.
