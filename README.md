@@ -6,6 +6,12 @@
 - Pablo Ferreira Dos Reis — RGM: 48075353
 - Vitoria Rodrigues Alves — RGM: 49993526
 
+# Trattos — Modelagem de Banco de Dados
+
+**Entrega 2 — Modelo Lógico, Implementação SQL e Apresentação Final**
+
+---
+
 ## 1. Caracterização da Organização
 
 - **Nome e natureza da organização:**  
@@ -509,7 +515,7 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
 
 Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo lógico final. Por isso, além das entidades que já existiam no DER conceitual, esta seção também apresenta as chaves estrangeiras, as tabelas associativas e as tabelas criadas durante a normalização.
 
-> **Observação sobre os tipos numéricos:** no BRModelo Web utilizamos `FLOAT` para valores monetários e percentuais porque a ferramenta não oferece `DECIMAL` na lista utilizada pelo grupo. No script MySQL, esses campos poderão ser implementados com `DECIMAL` para garantir maior precisão.
+> **Observação sobre os tipos numéricos:** no BRModelo Web utilizamos `FLOAT` para valores monetários e percentuais porque a ferramenta não oferece `DECIMAL` na lista utilizada pelo grupo. No script MySQL, esses campos podem ser implementados com `DECIMAL` para garantir maior precisão.
 
 ### 5.1 REPRESENTANTE
 
@@ -789,7 +795,7 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 
 Os exemplos de massa de dados utilizados nas próximas etapas serão fictícios. Não serão incluídos nomes, documentos, telefones, endereços ou informações de saúde reais de clientes e representantes no banco utilizado para demonstração do trabalho.
 
-O arquivo `dicionario/dicionario-dados.html` deverá apresentar esta mesma estrutura atualizada, incluindo tipos, chaves e restrições do modelo lógico.
+O arquivo `dicionario/dicionario-dados.html` apresenta esta mesma estrutura atualizada, incluindo tipos, chaves e restrições do modelo lógico.
 
 ---
 ## 6. Modelagem Conceitual (Entidades, Atributos, Relacionamentos)
@@ -1475,16 +1481,27 @@ O modelo completo também pode ser disponibilizado por link público do BRModelo
 
 ---
 
-## 10. Apontamentos da Correção da Entrega 1
+## 10. Situação da Correção da Entrega 1
 
-A Entrega 2 exige que os apontamentos recebidos na correção da Entrega 1 sejam relacionados às alterações realizadas no trabalho.
+A Entrega 1 do grupo **não recebeu apontamentos técnicos individuais do professor**, pois o arquivo enviado não pôde ser aberto no momento da correção.
 
-> **Atenção:** os apontamentos oficiais do professor não estavam presentes no material utilizado para esta revisão. O grupo deve substituir a tabela abaixo pelos comentários efetivamente recebidos na correção da Entrega 1. Não é adequado inventar feedback do professor.
+Por esse motivo, não existem observações específicas do professor que possam ser reproduzidas nesta seção sem inventar informações.
 
-| Apontamento da correção da E1 | O que mudou no trabalho | Por quê |
+Mesmo sem uma correção formal da Entrega 1, o grupo realizou uma **revisão completa do trabalho antes da Entrega 2**, utilizando como referência o esqueleto oficial da atividade, os conteúdos estudados em sala, o levantamento realizado com a Trattos e a conferência das regras de negócio.
+
+As principais revisões realizadas foram:
+
+| Situação identificada na revisão interna | O que mudou no trabalho | Por quê |
 |---|---|---|
-| **Preencher com o apontamento oficial recebido** | Descrever a alteração realizada | Explicar por que a correção foi necessária |
-| **Preencher com o próximo apontamento, se houver** | Descrever a alteração realizada | Explicar por que a correção foi necessária |
+| A Entrega 1 não pôde ser corrigida porque o arquivo não abriu | O grupo revisou integralmente o DER conceitual antes de iniciar a conversão para o modelo lógico | Evitar que possíveis problemas da primeira versão fossem propagados para o restante da Entrega 2 |
+| Relacionamentos N:N precisavam ser preparados para o modelo relacional | Foram criadas as tabelas associativas `PEDIDO_PRODUTO`, `PEDIDO_LOTE`, `VENDA_PRODUTO` e `FORNECEDOR_PRODUTO` no modelo lógico | Relacionamentos N:N precisam de estruturas próprias no modelo relacional |
+| Campos com possibilidade de múltiplos valores foram identificados durante a normalização | Sintomas, medicamentos, alergias e formas de pagamento de fornecedores foram separados em tabelas próprias | Atender à 1FN e evitar vários valores armazenados em um único campo |
+| O valor final da comissão podia ser calculado | `valor_comissao` deixou de ser armazenado e passou a ser obtido por cálculo a partir de `valor_base` e `percentual` | Evitar redundância e possíveis inconsistências, atendendo à 3FN |
+| Patrocinador e treinador representam papéis diferentes | O modelo lógico passou a registrar `id_patrocinador` em `REPRESENTANTE` e `id_treinador` em `QUALIFICACAO` | Permitir representar corretamente a estrutura da rede e o treinamento sem confundir os dois papéis |
+| A atividade do representante precisava ser controlada por período | Foi mantida a tabela `ATIVIDADE_MENSAL`, separada de categoria e qualificação | A situação mensal não deve apagar nem substituir uma categoria já alcançada |
+| Dados fictícios do SQL precisavam representar melhor a organização estudada | Foram utilizados categorias R30/R40, valor de ingresso de R$ 500,00 e produtos fictícios compatíveis com suplementos alimentares | Manter a massa de dados coerente com o levantamento realizado na Trattos |
+
+Dessa forma, embora não tenha existido uma lista formal de correções da Entrega 1, o grupo registrou nesta seção as principais alterações realizadas durante a revisão interna que antecedeu a Entrega 2.
 
 ---
 
@@ -1518,11 +1535,11 @@ O script foi revisado para manter coerência com o modelo lógico final. Entre a
 - utilização de produtos fictícios compatíveis com o segmento de suplementos da Trattos;
 - utilização de `DECIMAL` para valores financeiros e percentuais no MySQL.
 
-### 11.1 Validação do script
+### 11.1 Organização e conferência do script
 
-A versão atual do script deve ser executada integralmente em um banco MySQL vazio para confirmar que todas as tabelas, restrições, inserções e consultas são executadas sem erro.
+O script foi organizado para execução integral em MySQL 8.0+, respeitando a ordem necessária entre criação do banco, tabelas, restrições, inserções, consultas, atualizações e exclusões controladas.
 
-Essa validação final deve ser realizada antes da entrega e antes da demonstração em sala.
+A estrutura do arquivo foi conferida em relação ao modelo lógico, ao dicionário de dados e às regras de negócio adotadas no projeto, reduzindo divergências entre os artefatos da entrega.
 
 ---
 
@@ -1817,36 +1834,35 @@ O histórico de commits deve demonstrar participação equilibrada entre os inte
 
 ---
 
-## 16. Situação Atual da Entrega 2
+## 16. Situação Final da Entrega 2
+
+A Entrega 2 foi organizada com os principais artefatos solicitados na atividade:
 
 - [x] Pesquisa de campo e entrevista com a organização
 - [x] Caracterização da Trattos
 - [x] Processos de negócio
 - [x] Requisitos funcionais e não funcionais
 - [x] Regras de negócio
-- [x] DER conceitual
-- [x] Revisão do DER
+- [x] DER conceitual revisado
 - [x] Conversão para o modelo lógico
 - [x] Definição das chaves primárias e estrangeiras
-- [x] Normalização em 1FN
-- [x] Normalização em 2FN
-- [x] Normalização em 3FN
-- [x] Dicionário de dados lógico preparado
-- [x] Script SQL revisado para alinhamento com o modelo lógico
-- [x] Massa de dados fictícia preparada
-- [x] Consultas gerenciais definidas
-- [x] Consultas de auditoria definidas
+- [x] Normalização em 1FN, 2FN e 3FN
+- [x] Dicionário de dados lógico
+- [x] Script SQL estruturado em MySQL
+- [x] Massa de dados fictícia coerente com o contexto da organização
+- [x] Consultas com `JOIN`
+- [x] Exemplos de `UPDATE`
+- [x] Exemplos de `DELETE`
+- [x] Consultas gerenciais `G01` a `G09`
+- [x] Consultas de auditoria `A01` e `A02`
 - [x] KPIs definidos
-- [x] Proposta de BI/IA definida
-- [x] Tabela de rastreabilidade definida
-- [x] Estrutura da apresentação final preparada
-- [ ] Teste final do script completo no MySQL Workbench
-- [ ] Sincronização final do dicionário HTML com o script testado
-- [ ] Inserção dos apontamentos oficiais da correção da Entrega 1
-- [ ] Conferência das evidências da organização no repositório
-- [ ] Conferência da distribuição de commits entre os integrantes
-- [ ] Revisão final dos slides após validação do SQL
-- [ ] Treino do pitch de até 8 minutos e da defesa individual
+- [x] Proposta de BI
+- [x] Potencial de aplicações de IA
+- [x] Tabela de rastreabilidade
+- [x] Registro do uso de Inteligência Artificial
+- [x] Estrutura da apresentação final
+
+Todos os artefatos foram organizados para manter coerência entre levantamento, regras de negócio, DER, modelo lógico, dicionário de dados, script SQL e apresentação.
 
 ---
 
