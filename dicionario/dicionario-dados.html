@@ -128,19 +128,19 @@
 <div class="observacao">
 <strong>Privacidade:</strong>
         este dicionário não utiliza exemplos contendo dados pessoais reais de clientes,
-        representantes ou responsáveis pela organização. Os dados utilizados posteriormente
-        na massa de testes serão fictícios.
+        representantes ou responsáveis pela organização. Os dados utilizados
+        na massa de testes são fictícios.
     </div>
 <div class="observacao">
 <strong>Observação sobre tipos numéricos:</strong>
         no BRModelo Web foi utilizado <code>FLOAT</code> para valores monetários e percentuais
         porque essa foi a opção disponível utilizada durante a modelagem. No script MySQL,
         os campos financeiros foram implementados com <code>DECIMAL</code> para maior precisão.
-    </div><div class="observacao"><strong>Versão final:</strong> este dicionário foi sincronizado com o modelo lógico e com a versão revisada do script MySQL da Entrega 2. Os tipos <code>DECIMAL(10,2)</code> e <code>DECIMAL(5,2)</code> representam a implementação SQL dos valores monetários e percentuais.</div>
+    </div><div class="observacao"><strong>Tipos numéricos:</strong> no BRModelo alguns valores aparecem como <code>FLOAT</code>. No dicionário e no script MySQL usamos <code>DECIMAL(10,2)</code> para valores monetários e <code>DECIMAL(5,2)</code> para percentuais.</div>
 <div class="resumo">
 <strong>Alterações principais da Entrega 2:</strong>
 <ul>
-<li><code>valor_comissao</code> foi removido de <code>COMISSAO</code> e será calculado quando necessário;</li>
+<li><code>valor_comissao</code> foi removido de <code>COMISSAO</code> e é calculado quando necessário;</li>
 <li><code>sintomas</code>, <code>medicamentos</code> e <code>alergias</code> foram separados de <code>CONDICAO_SAUDE</code>;</li>
 <li><code>formas_pagamento</code> foi separado de <code>FORNECEDOR</code>;</li>
 <li>os relacionamentos N:N deram origem às tabelas associativas do modelo lógico.</li>
@@ -190,20 +190,20 @@
 </tr>
 <tr>
 <td><code>nome</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(100)</code></td>
 <td>NOT NULL</td>
 <td>Nome do representante.</td>
 </tr>
 <tr>
 <td><code>cpf</code></td>
-<td><code>VARCHAR</code></td>
-<td>UNIQUE</td>
+<td><code>CHAR(11)</code></td>
+<td>NOT NULL, UNIQUE</td>
 <td>CPF do representante.</td>
 </tr>
 <tr>
 <td><code>codigo_representante</code></td>
-<td><code>VARCHAR</code></td>
-<td>UNIQUE, NOT NULL</td>
+<td><code>VARCHAR(45)</code></td>
+<td>NOT NULL, UNIQUE</td>
 <td>Código comercial utilizado pela Trattos.</td>
 </tr>
 <tr>
@@ -214,14 +214,14 @@
 </tr>
 <tr>
 <td><code>endereco</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(200)</code></td>
+<td>aceita NULL</td>
 <td>Endereço cadastrado do representante.</td>
 </tr>
 <tr>
 <td><code>estado_civil</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(40)</code></td>
+<td>aceita NULL</td>
 <td>Estado civil informado no cadastro.</td>
 </tr>
 <tr>
@@ -247,50 +247,50 @@
 </tr>
 <tr>
 <td><code>nome</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(100)</code></td>
 <td>NOT NULL</td>
 <td>Nome do cliente.</td>
 </tr>
 <tr>
 <td><code>cpf</code></td>
-<td><code>VARCHAR</code></td>
-<td>UNIQUE</td>
+<td><code>CHAR(11)</code></td>
+<td>aceita NULL, UNIQUE</td>
 <td>CPF do cliente, quando informado.</td>
 </tr>
 <tr>
 <td><code>rg</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(25)</code></td>
+<td>aceita NULL</td>
 <td>Documento de identidade do cliente.</td>
 </tr>
 <tr>
 <td><code>data_nascimento</code></td>
 <td><code>DATE</code></td>
-<td>—</td>
+<td>aceita NULL</td>
 <td>Data de nascimento do cliente.</td>
 </tr>
 <tr>
 <td><code>endereco</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(200)</code></td>
+<td>aceita NULL</td>
 <td>Endereço do cliente.</td>
 </tr>
 <tr>
 <td><code>telefone</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(25)</code></td>
+<td>aceita NULL</td>
 <td>Telefone para contato.</td>
 </tr>
 <tr>
 <td><code>whatsapp</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(25)</code></td>
+<td>aceita NULL</td>
 <td>Número utilizado no WhatsApp.</td>
 </tr>
 <tr>
 <td><code>email</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(150)</code></td>
+<td>aceita NULL</td>
 <td>E-mail do cliente.</td>
 </tr>
 <tr>
@@ -328,14 +328,14 @@
 </tr>
 <tr>
 <td><code>nome_categoria</code></td>
-<td><code>VARCHAR</code></td>
-<td>NOT NULL</td>
+<td><code>VARCHAR(80)</code></td>
+<td>NOT NULL, UNIQUE</td>
 <td>Nome da categoria comercial, como R30 ou R40.</td>
 </tr>
 <tr>
 <td><code>percentual_desconto_base</code></td>
 <td><code>DECIMAL(5,2)</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK 0 a 100</td>
 <td>Percentual de desconto-base associado à categoria.</td>
 </tr>
 </table>
@@ -361,14 +361,14 @@
 </tr>
 <tr>
 <td><code>tipo_qualificacao</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Forma pela qual a qualificação foi alcançada.</td>
 </tr>
 <tr>
 <td><code>valor_base</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>aceita NULL</td>
+<td>aceita NULL, CHECK ≥ 0 quando informado</td>
 <td>Valor relacionado à qualificação, quando aplicável.</td>
 </tr>
 <tr>
@@ -413,18 +413,18 @@
 <tr>
 <td><code>valor_kit</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Valor do kit de ingresso.</td>
 </tr>
 <tr>
 <td><code>quantidade_parcelas</code></td>
 <td><code>INT</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK &gt; 0</td>
 <td>Quantidade de parcelas utilizadas.</td>
 </tr>
 <tr>
 <td><code>status_pagamento</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Situação do pagamento do ingresso.</td>
 </tr>
@@ -451,19 +451,19 @@
 </tr>
 <tr>
 <td><code>mes_referencia</code></td>
-<td><code>INT</code></td>
+<td><code>TINYINT</code></td>
 <td>NOT NULL, CHECK 1 a 12</td>
 <td>Mês de referência.</td>
 </tr>
 <tr>
 <td><code>ano_referencia</code></td>
-<td><code>INT</code></td>
+<td><code>SMALLINT</code></td>
 <td>NOT NULL</td>
 <td>Ano de referência.</td>
 </tr>
 <tr>
 <td><code>status_atividade</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Situação do representante no período.</td>
 </tr>
@@ -490,20 +490,20 @@
 </tr>
 <tr>
 <td><code>tipo_comissao</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Modalidade da comissão gerada.</td>
 </tr>
 <tr>
 <td><code>valor_base</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Valor utilizado como base para o cálculo.</td>
 </tr>
 <tr>
 <td><code>percentual</code></td>
 <td><code>DECIMAL(5,2)</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK 0 a 100</td>
 <td>Percentual aplicado sobre o valor-base.</td>
 </tr>
 <tr>
@@ -514,7 +514,7 @@
 </tr>
 <tr>
 <td><code>status</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Situação atual da comissão.</td>
 </tr>
@@ -553,7 +553,7 @@
 </tr>
 <tr>
 <td><code>observacoes</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>TEXT</code></td>
 <td>aceita NULL</td>
 <td>Observações do acompanhamento.</td>
 </tr>
@@ -586,7 +586,7 @@
 </tr>
 <tr>
 <td><code>nome_condicao</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(120)</code></td>
 <td>NOT NULL</td>
 <td>Nome ou identificação da condição.</td>
 </tr>
@@ -604,7 +604,7 @@
 </tr>
 <tr>
 <td><code>historico_doenca</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>TEXT</code></td>
 <td>aceita NULL</td>
 <td>Histórico relacionado à condição.</td>
 </tr>
@@ -631,7 +631,7 @@
 </tr>
 <tr>
 <td><code>sintoma</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(120)</code></td>
 <td>NOT NULL</td>
 <td>Sintoma relacionado à condição.</td>
 </tr>
@@ -658,7 +658,7 @@
 </tr>
 <tr>
 <td><code>medicamento</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(120)</code></td>
 <td>NOT NULL</td>
 <td>Medicamento relacionado à condição.</td>
 </tr>
@@ -685,7 +685,7 @@
 </tr>
 <tr>
 <td><code>alergia</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(120)</code></td>
 <td>NOT NULL</td>
 <td>Alergia informada.</td>
 </tr>
@@ -712,8 +712,8 @@
 </tr>
 <tr>
 <td><code>numero_pedido</code></td>
-<td><code>VARCHAR</code></td>
-<td>UNIQUE, NOT NULL</td>
+<td><code>VARCHAR(45)</code></td>
+<td>NOT NULL, UNIQUE</td>
 <td>Número comercial do pedido.</td>
 </tr>
 <tr>
@@ -725,12 +725,12 @@
 <tr>
 <td><code>frete</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>aceita NULL</td>
+<td>NOT NULL, DEFAULT 0.00, CHECK ≥ 0</td>
 <td>Valor do frete, quando houver.</td>
 </tr>
 <tr>
 <td><code>status_pedido</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Situação atual do pedido.</td>
 </tr>
@@ -764,12 +764,12 @@
 <tr>
 <td><code>valor</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Valor pago naquele registro.</td>
 </tr>
 <tr>
 <td><code>forma_pagamento</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Forma utilizada para o pagamento.</td>
 </tr>
@@ -796,14 +796,14 @@
 </tr>
 <tr>
 <td><code>nome_produto</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(120)</code></td>
 <td>NOT NULL</td>
 <td>Nome do produto comercializado.</td>
 </tr>
 <tr>
 <td><code>preco_tabela</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Preço de tabela atual do produto.</td>
 </tr>
 </table>
@@ -823,7 +823,7 @@
 </tr>
 <tr>
 <td><code>numero_lote</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Número de identificação do lote.</td>
 </tr>
@@ -836,7 +836,7 @@
 <tr>
 <td><code>data_validade</code></td>
 <td><code>DATE</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK &gt; data_fabricacao</td>
 <td>Data de validade.</td>
 </tr>
 <tr>
@@ -845,7 +845,7 @@
 <td>FK, NOT NULL</td>
 <td>Produto ao qual o lote pertence.</td>
 </tr>
-</table>
+</table><p><strong>Restrição aplicada no SQL:</strong> a combinação <code>numero_lote + id_produto</code> é única.</p>
 <h2 id="venda">Tabela: VENDA</h2>
 <table>
 <tr>
@@ -896,12 +896,12 @@
 <tr>
 <td><code>valor</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Valor recebido naquele registro.</td>
 </tr>
 <tr>
 <td><code>forma_pagamento</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Forma utilizada no pagamento.</td>
 </tr>
@@ -928,67 +928,67 @@
 </tr>
 <tr>
 <td><code>cnpj</code></td>
-<td><code>VARCHAR</code></td>
-<td>UNIQUE, NOT NULL</td>
+<td><code>CHAR(14)</code></td>
+<td>NOT NULL, UNIQUE</td>
 <td>CNPJ do fornecedor.</td>
 </tr>
 <tr>
 <td><code>razao_social</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(150)</code></td>
 <td>NOT NULL</td>
 <td>Razão social.</td>
 </tr>
 <tr>
 <td><code>nome_fantasia</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(150)</code></td>
 <td>aceita NULL</td>
 <td>Nome fantasia.</td>
 </tr>
 <tr>
 <td><code>endereco</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(200)</code></td>
+<td>aceita NULL</td>
 <td>Endereço comercial.</td>
 </tr>
 <tr>
 <td><code>data_abertura</code></td>
 <td><code>DATE</code></td>
-<td>—</td>
+<td>aceita NULL</td>
 <td>Data de abertura da empresa.</td>
 </tr>
 <tr>
 <td><code>contato_responsavel</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(100)</code></td>
+<td>aceita NULL</td>
 <td>Pessoa responsável pelo contato.</td>
 </tr>
 <tr>
 <td><code>telefone</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(25)</code></td>
+<td>aceita NULL</td>
 <td>Telefone comercial.</td>
 </tr>
 <tr>
 <td><code>whatsapp</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(25)</code></td>
+<td>aceita NULL</td>
 <td>WhatsApp comercial.</td>
 </tr>
 <tr>
 <td><code>email</code></td>
-<td><code>VARCHAR</code></td>
-<td>—</td>
+<td><code>VARCHAR(150)</code></td>
+<td>aceita NULL</td>
 <td>E-mail comercial.</td>
 </tr>
 <tr>
 <td><code>website</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(150)</code></td>
 <td>aceita NULL</td>
 <td>Site do fornecedor.</td>
 </tr>
 <tr>
 <td><code>status_anvisa</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>aceita NULL</td>
 <td>Situação relacionada à ANVISA.</td>
 </tr>
@@ -1000,7 +1000,7 @@
 </tr>
 <tr>
 <td><code>status_vigilancia_sanitaria</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>aceita NULL</td>
 <td>Situação perante a Vigilância Sanitária.</td>
 </tr>
@@ -1039,7 +1039,7 @@
 </tr>
 <tr>
 <td><code>forma_pagamento</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Forma de pagamento aceita pelo fornecedor.</td>
 </tr>
@@ -1072,13 +1072,13 @@
 </tr>
 <tr>
 <td><code>status</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(45)</code></td>
 <td>NOT NULL</td>
 <td>Resultado ou situação da avaliação.</td>
 </tr>
 <tr>
 <td><code>observacao</code></td>
-<td><code>VARCHAR</code></td>
+<td><code>VARCHAR(250)</code></td>
 <td>aceita NULL</td>
 <td>Observações sobre a qualificação.</td>
 </tr>
@@ -1112,19 +1112,19 @@
 <tr>
 <td><code>quantidade</code></td>
 <td><code>INT</code></td>
-<td>NOT NULL, &gt; 0</td>
+<td>NOT NULL, CHECK &gt; 0</td>
 <td>Quantidade do produto no pedido.</td>
 </tr>
 <tr>
 <td><code>valor_unitario</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL, &gt;= 0</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Valor unitário considerado no pedido.</td>
 </tr>
 <tr>
 <td><code>desconto_item</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>DEFAULT 0, &gt;= 0</td>
+<td>NOT NULL, DEFAULT 0.00, CHECK ≥ 0</td>
 <td>Desconto aplicado ao produto.</td>
 </tr>
 </table>
@@ -1151,7 +1151,7 @@
 <tr>
 <td><code>quantidade_lote</code></td>
 <td><code>INT</code></td>
-<td>NOT NULL, &gt; 0</td>
+<td>NOT NULL, CHECK &gt; 0</td>
 <td>Quantidade retirada daquele lote.</td>
 </tr>
 </table>
@@ -1178,25 +1178,25 @@
 <tr>
 <td><code>quantidade</code></td>
 <td><code>INT</code></td>
-<td>NOT NULL, &gt; 0</td>
+<td>NOT NULL, CHECK &gt; 0</td>
 <td>Quantidade vendida.</td>
 </tr>
 <tr>
 <td><code>preco_tabela</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL, &gt;= 0</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Preço de tabela considerado na venda.</td>
 </tr>
 <tr>
 <td><code>preco_vendido</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>NOT NULL, &gt;= 0</td>
+<td>NOT NULL, CHECK ≥ 0</td>
 <td>Preço efetivamente praticado.</td>
 </tr>
 <tr>
 <td><code>desconto_aplicado</code></td>
 <td><code>DECIMAL(10,2)</code></td>
-<td>DEFAULT 0, &gt;= 0</td>
+<td>NOT NULL, DEFAULT 0.00, CHECK ≥ 0</td>
 <td>Desconto aplicado na venda.</td>
 </tr>
 </table>
@@ -1233,5 +1233,5 @@
 <li>Valores monetários e percentuais não deverão aceitar valores negativos.</li>
 <li><code>data_validade</code> deve ser posterior a <code>data_fabricacao</code>.</li>
 </ul>
-<div class="observacao"><strong>Escopo:</strong> o modelo registra produtos, lotes e quantidades utilizadas nos pedidos. O controle quantitativo completo das entradas e do saldo atual de estoque não é tratado como KPI nesta versão, pois exigiria uma estrutura específica de movimentação de estoque.</div></body>
+<div class="observacao"><strong>Observação sobre estoque:</strong> neste modelo registramos os lotes e as quantidades usadas nos pedidos. O saldo completo de estoque exigiria também um controle específico das entradas, por isso esse cálculo não foi usado como KPI nesta versão.</div></body>
 </html>
