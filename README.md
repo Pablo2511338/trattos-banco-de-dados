@@ -7,7 +7,6 @@
 - Breno Troillo Carvalho — RGM: 4797955
 - Pablo Ferreira Dos Reis — RGM: 48075353
 - Vitoria Rodrigues Alves — RGM: 49993526
-
 ---
 
 ## 1. Caracterização da Organização
@@ -40,7 +39,7 @@
 
   A empresa também apresenta um cenário adequado para a aplicação dos conceitos de modelagem de banco de dados estudados na disciplina. Seus processos envolvem diferentes conjuntos de informações relacionadas entre si, incluindo representantes, clientes, categorias, qualificações, produtos, lotes, pedidos, vendas, pagamentos, fornecedores, condições de saúde informadas pelos clientes, visitas e comissões.
 
-  Essa diversidade possibilita desenvolver um modelo conceitual suficientemente abrangente para representar uma operação real, sem a necessidade de criar uma organização fictícia. Além disso, a necessidade identificada de melhorar a organização das informações e o controle das comissões demonstra uma aplicação prática para o banco de dados proposto.
+  Esses processos deram ao grupo informações suficientes para construir um modelo que representa as principais atividades da Trattos. Além disso, a dificuldade relatada no controle das comissões mostrou uma aplicação prática para o banco de dados proposto.
 
 - **Evidências da organização:**  
   A existência e o funcionamento da Trattos foram verificados por meio de informações cadastrais públicas e, principalmente, por **pesquisa de campo realizada através de entrevista com um responsável pela organização**. Durante a entrevista foram coletadas informações sobre produtos, estrutura operacional, representantes, clientes, pedidos, estoque, lotes, pagamentos, fornecedores, qualificações, comissões e necessidades do sistema.
@@ -65,7 +64,7 @@ Durante o levantamento realizado com a Trattos, foram identificados os seguintes
 
 ### 2.1 Cadastro e acompanhamento de representantes
 
-O representante ingressa na Trattos mediante aquisição de um kit de ingresso, atualmente no valor de R$ 500,00, convertido em produtos. Após o ingresso, o representante inicia normalmente na categoria R30 e pode evoluir para outras condições comerciais conforme as regras de qualificação da empresa.
+O representante ingressa na Trattos mediante aquisição de um kit, atualmente no valor de R$ 500,00, convertido em produtos. A entrevista informou que, nas compras seguintes, ele passa a ter 30% de desconto e pode chegar a 40% ao atingir a condição definida pela empresa. No modelo do grupo, essas duas condições foram representadas como categorias R30 e R40.
 
 O sistema também precisa manter a relação de patrocínio entre os representantes, permitindo identificar quem indicou cada novo integrante e reconstruir a estrutura da rede comercial.
 
@@ -77,13 +76,13 @@ Cada cliente é cadastrado e permanece vinculado a um representante responsável
 
 Caso o representante não possa mais realizar o atendimento, o cliente pode ser transferido para outro representante.
 
-O cadastro contempla informações pessoais e de contato, além de dados relevantes para o acompanhamento do cliente, como condições de saúde, previsão de próxima compra e histórico de visitas.
+O cadastro de clientes no modelo reúne informações pessoais e de contato. Como parte da solução proposta pelo grupo, também foram incluídos campos para previsão de próxima compra, visitas e condições de saúde, permitindo manter um histórico de acompanhamento. Esses detalhes não foram especificados na entrevista principal e foram tratados como decisões de modelagem do projeto.
 
 ### 2.3 Visitas e acompanhamento dos clientes
 
-Os representantes realizam acompanhamento dos clientes ao longo do relacionamento comercial.
+Como parte da solução proposta, o grupo decidiu registrar os contatos e visitas feitos aos clientes. Cada registro pode guardar a data, observações e a previsão do próximo contato.
 
-O sistema deve registrar as visitas realizadas, incluindo data, observações e previsão da próxima visita. Dessa forma, torna-se possível manter um histórico do acompanhamento de cada cliente e auxiliar no planejamento dos próximos contatos.
+Essa estrutura foi incluída para permitir um histórico de acompanhamento no escritório virtual proposto. A entrevista principal não detalhou um processo formal de visitas.
 
 ### 2.4 Emissão e acompanhamento de pedidos
 
@@ -113,39 +112,29 @@ O histórico de vendas permite acompanhar as compras realizadas pelos clientes e
 
 ### 2.7 Registro de pagamentos
 
-O sistema precisa registrar pagamentos relacionados aos pedidos e às vendas.
+O levantamento confirmou que a Trattos recebe comprovantes de pagamento pelo WhatsApp. Para o banco proposto, o grupo decidiu separar os pagamentos dos pedidos e das vendas, permitindo guardar data, valor e forma utilizada.
 
-Um único pagamento pode ser dividido entre diferentes formas, como Pix, transferência bancária, depósito, dinheiro, débito ou crédito. Por esse motivo, uma mesma operação pode possuir vários registros de pagamento.
-
-O histórico financeiro deve ser preservado para permitir consultas posteriores e garantir rastreabilidade das movimentações.
+Também foi permitido mais de um registro de pagamento para a mesma operação. As formas usadas na massa de teste, como Pix, transferência, dinheiro e cartão, são exemplos do projeto e não uma lista oficial informada pela empresa.
 
 ### 2.8 Qualificação dos representantes
 
-A Trattos possui regras de evolução comercial dos representantes.
+A entrevista informou que o representante começa com 30% de desconto e pode passar para 40% quando atinge a condição definida pela empresa. Para facilitar a modelagem, o grupo chamou essas condições de R30 e R40.
 
-O representante normalmente inicia na categoria R30 e pode alcançar a categoria R40 conforme as condições previstas pela empresa, como atingir determinada meta de volume ou realizar ingressos de novos representantes.
-
-A evolução precisa ser registrada historicamente para que seja possível acompanhar quando e de que forma cada representante alcançou determinada categoria.
-
-Em alguns casos, um representante diferente do patrocinador pode atuar como treinador durante o processo de evolução para R40, sendo necessário distinguir os papéis de patrocinador e treinador.
+O cadastro informado pela Trattos também possui os campos “apresentador” e “treinador”. No modelo, o apresentador foi representado como patrocinador direto e o treinador foi mantido separadamente. A entrevista não detalhou como o treinador é escolhido, por isso o banco apenas registra quem exerceu esse papel quando houver.
 
 ### 2.9 Controle de comissões
 
 O controle de comissões é um dos processos mais relevantes para a organização e também uma das principais dificuldades identificadas durante a pesquisa de campo.
 
-As comissões podem ser geradas por diferentes eventos, como ingresso de novos representantes, evolução de integrantes da equipe e outras regras comerciais da empresa.
+A entrevista confirmou que a empresa trabalha com percentuais de comissão e que o pagamento dessas comissões é uma das principais dificuldades atuais. Como as fórmulas exatas não foram detalhadas, o modelo não fixa regras automáticas de cálculo por evento.
 
-Uma mesma ocorrência pode gerar pagamentos para mais de um representante, devendo cada comissão ser registrada separadamente para permitir identificar o beneficiário, o tipo, o percentual, o valor e o status do pagamento.
+Cada comissão é registrada separadamente com beneficiário, tipo, valor-base, percentual, data e situação. Assim, o banco consegue manter o histórico sem inventar fórmulas comerciais que não foram informadas.
 
 Atualmente, o pagamento de comissões é realizado de forma semiautomatizada, sendo essa uma das principais necessidades de melhoria indicadas pela Trattos.
 
 ### 2.10 Atividade mensal e desempenho da rede
 
-O sistema deve permitir acompanhar a atividade dos representantes ao longo dos meses.
-
-Esse acompanhamento é importante porque determinadas vantagens e comissões dependem do cumprimento de condições mensais definidas pela empresa.
-
-Também existe a necessidade de acompanhar produção, desempenho da equipe e valores de comissão associados aos representantes.
+A empresa informou que deseja acompanhar produção, equipe e comissões a receber no mês. Para organizar essa informação no modelo, o grupo criou `ATIVIDADE_MENSAL`, que registra a situação do representante em cada mês sem alterar o histórico de categoria.
 
 ### 2.11 Cadastro e acompanhamento de fornecedores
 
@@ -265,7 +254,7 @@ Os requisitos funcionais representam as ações e funcionalidades que o sistema 
   O sistema deve permitir registrar e consultar a situação mensal dos representantes em relação às condições necessárias para benefícios e comissões.
 
 - **RF31 — Registrar comissões:**  
-  O sistema deve permitir registrar individualmente as comissões geradas para cada representante, contendo tipo de comissão, valor-base, percentual, data de geração, status e data de pagamento. O valor final da comissão será calculado a partir do valor-base e do percentual quando necessário.
+  O sistema deve permitir registrar individualmente as comissões geradas para cada representante, contendo tipo de comissão, valor-base, percentual, data de geração, status e data de pagamento. O valor final da comissão é calculado a partir do valor-base e do percentual quando necessário.
 
 - **RF32 — Consultar comissões:**  
   O sistema deve permitir que usuários autorizados consultem as comissões geradas, aprovadas e pagas.
@@ -352,7 +341,7 @@ Os requisitos não funcionais representam características de qualidade, seguran
 ---
 ## 4. Regras de Negócio
 
-As regras de negócio abaixo foram definidas a partir das informações obtidas junto à Trattos e representam condições reais de funcionamento da organização que influenciam diretamente a estrutura do banco de dados.
+As regras abaixo foram montadas a partir do levantamento com a Trattos e das decisões necessárias para transformar essas informações em um banco de dados. Quando a entrevista não detalhou uma regra específica, o texto deixa claro que se trata de uma decisão de modelagem do grupo e não de uma regra comercial confirmada pela empresa.
 
 ### 4.1 Regras Operacionais
 
@@ -365,20 +354,20 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
 - **RN03 — Identificação dos clientes:**  
   O nome não deve ser utilizado como identificador único, pois podem existir clientes com o mesmo nome. Cada cliente deve possuir um identificador próprio no sistema.
 
-- **RN04 — Condições de saúde do cliente:**  
-  Um cliente pode possuir nenhuma, uma ou várias condições de saúde registradas. Cada condição pode conter informações sobre início dos sintomas, diagnóstico, sintomas, medicamentos, alergias e histórico da doença.
+- **RN04 — Condições de saúde do cliente no modelo:**  
+  Como parte da solução proposta pelo grupo, um cliente pode possuir nenhuma, uma ou várias condições de saúde registradas. Esses dados não foram detalhados na entrevista principal e foram incluídos como informação de acompanhamento no modelo.
 
-- **RN05 — Histórico de visitas:**  
-  Um cliente pode possuir várias visitas registradas ao longo do tempo. Cada visita pertence a um único cliente e deve permitir o registro de data, observações e previsão de próxima visita.
+- **RN05 — Histórico de visitas no modelo:**  
+  O modelo permite registrar várias visitas ou contatos para um cliente, cada um com data, observações e previsão de próximo contato. Essa estrutura foi criada pelo grupo para apoiar o escritório virtual proposto.
 
 - **RN06 — Ingresso do representante:**  
   Cada representante realiza um único ingresso na Trattos. O ingresso ocorre mediante aquisição de um kit, atualmente no valor de R$ 500,00, convertido em produtos.
 
-- **RN07 — Categoria inicial do representante:**  
-  Ao ingressar, o representante inicia normalmente na categoria R30.
+- **RN07 — Condição inicial de desconto:**  
+  A entrevista informou 30% de desconto nas compras seguintes ao ingresso. No modelo, essa condição foi representada pela categoria R30.
 
-- **RN08 — Evolução de categoria:**  
-  O representante pode evoluir para a categoria R40 conforme as regras de qualificação adotadas pela Trattos.
+- **RN08 — Evolução para 40% de desconto:**  
+  A entrevista informou que o representante pode passar de 30% para 40% de desconto ao atingir a condição definida pela empresa. No modelo, a condição de 40% foi representada pela categoria R40.
 
 - **RN09 — Histórico de qualificação:**  
   As qualificações dos representantes devem ser mantidas historicamente, permitindo identificar quando e por qual regra uma evolução de categoria ocorreu.
@@ -390,13 +379,13 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
   A rede comercial deve ser reconstruída a partir das relações de patrocínio direto, não sendo necessário armazenar explicitamente informações como “filho”, “neto”, “primeiro nível” ou “segundo nível”.
 
 - **RN12 — Distinção entre patrocinador e treinador:**  
-  O representante que indicou uma pessoa e o representante que realizou seu treinamento podem ser pessoas diferentes.
+  O cadastro informado pela empresa possui os campos “apresentador” e “treinador”. No modelo, o apresentador foi tratado como patrocinador direto e o treinador ficou em um campo separado, permitindo que sejam pessoas diferentes.
 
-- **RN13 — Treinamento na qualificação:**  
-  Uma qualificação pode ocorrer sem treinador específico ou possuir no máximo um representante registrado como treinador.
+- **RN13 — Treinador no modelo:**  
+  Como a entrevista não informou uma regra obrigatória para o treinador, o campo é opcional no modelo. Quando houver um treinador registrado, a qualificação possui no máximo um representante nesse papel.
 
-- **RN14 — Atividade mensal:**  
-  A situação mensal do representante deve ser controlada separadamente de sua categoria. O não cumprimento de uma meta mensal não elimina automaticamente uma categoria já alcançada.
+- **RN14 — Atividade mensal no modelo:**  
+  A tabela `ATIVIDADE_MENSAL` foi criada pelo grupo para separar o acompanhamento por mês do histórico de categoria. Assim, alterar a situação de um mês não apaga uma qualificação anterior.
 
 - **RN15 — Distinção entre desconto e comissão:**  
   O desconto comercial concedido ao representante não deve ser tratado como comissão. O desconto representa uma redução no preço de compra, enquanto a comissão é um valor gerado por regras específicas da rede.
@@ -405,7 +394,7 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
   Cada comissão deve ser registrada separadamente para o respectivo beneficiário, mesmo quando um mesmo evento gera valores para mais de um representante.
 
 - **RN17 — Registro de comissão:**  
-  Cada comissão deve possuir informações que permitam identificar seu tipo, valor-base, percentual, data de geração, situação e data de pagamento. O valor da comissão será obtido por cálculo quando necessário.
+  Cada comissão deve possuir informações que permitam identificar seu tipo, valor-base, percentual, data de geração, situação e data de pagamento. O valor da comissão é obtido por cálculo quando necessário.
 
 - **RN18 — Preservação das comissões:**  
   Registros de comissão não devem ser simplesmente apagados quando houver cancelamento ou correção, pois o histórico financeiro precisa ser preservado.
@@ -443,11 +432,11 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
 - **RN29 — Histórico de vendas:**  
   As informações das vendas devem ser preservadas para permitir consultas posteriores sobre compras realizadas pelos clientes.
 
-- **RN30 — Pagamentos fracionados:**  
-  Uma mesma operação pode ser paga utilizando mais de uma forma de pagamento.
+- **RN30 — Mais de um registro de pagamento:**  
+  O modelo permite que uma mesma operação possua mais de um registro de pagamento, para não limitar a implementação a uma única forma.
 
-- **RN31 — Formas de pagamento:**  
-  Entre as formas aceitas podem existir Pix, transferência bancária, TED, DOC, depósito, dinheiro, débito, crédito à vista e crédito parcelado.
+- **RN31 — Formas de pagamento usadas nos testes:**  
+  A massa de dados pode utilizar exemplos como Pix, transferência, depósito, dinheiro, débito e crédito. Essa lista é usada para testar o banco e não representa uma lista oficial de formas de pagamento informada pela Trattos.
 
 - **RN32 — Pagamentos de pedidos:**  
   Um pedido pode ainda não possuir pagamento registrado ou possuir vários registros de pagamento.
@@ -513,19 +502,19 @@ As regras de negócio abaixo foram definidas a partir das informações obtidas 
 
 Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo lógico final. Por isso, além das entidades que já existiam no DER conceitual, esta seção também apresenta as chaves estrangeiras, as tabelas associativas e as tabelas criadas durante a normalização.
 
-> **Observação sobre os tipos numéricos:** no BRModelo Web utilizamos `FLOAT` para valores monetários e percentuais porque a ferramenta não oferece `DECIMAL` na lista utilizada pelo grupo. No script MySQL, esses campos podem ser implementados com `DECIMAL` para garantir maior precisão.
+> **Observação sobre os tipos numéricos:** no BRModelo Web alguns valores aparecem como `FLOAT` por limitação da ferramenta utilizada pelo grupo. No dicionário e no script MySQL final usamos `DECIMAL(10,2)` para valores monetários e `DECIMAL(5,2)` para percentuais, porque são tipos mais adequados para esses dados.
 
 ### 5.1 REPRESENTANTE
 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_representante | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do representante. |
-| nome | VARCHAR | NOT NULL | Nome do representante. |
-| cpf | VARCHAR | UNIQUE | CPF do representante. |
-| codigo_representante | VARCHAR | UNIQUE, NOT NULL | Código comercial utilizado pela Trattos. |
+| nome | VARCHAR(100) | NOT NULL | Nome do representante. |
+| cpf | CHAR(11) | NOT NULL, UNIQUE | CPF do representante. |
+| codigo_representante | VARCHAR(45) | NOT NULL, UNIQUE | Código comercial utilizado pela Trattos. |
 | data_cadastro | DATE | NOT NULL | Data de cadastro do representante. |
-| endereco | VARCHAR | — | Endereço informado no cadastro. |
-| estado_civil | VARCHAR | — | Estado civil informado no cadastro. |
+| endereco | VARCHAR(200) | aceita NULL | Endereço informado no cadastro. |
+| estado_civil | VARCHAR(40) | aceita NULL | Estado civil informado no cadastro. |
 | id_patrocinador | INT | FK, aceita NULL | Representante que realizou o patrocínio direto. Referencia `REPRESENTANTE.id_representante`. |
 
 ### 5.2 CLIENTE
@@ -533,14 +522,14 @@ Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_cliente | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do cliente. |
-| nome | VARCHAR | NOT NULL | Nome do cliente. |
-| cpf | VARCHAR | UNIQUE | CPF do cliente, quando informado. |
-| rg | VARCHAR | — | Documento de identidade do cliente. |
-| data_nascimento | DATE | — | Data de nascimento do cliente. |
-| endereco | VARCHAR | — | Endereço do cliente. |
-| telefone | VARCHAR | — | Telefone para contato. |
-| whatsapp | VARCHAR | — | Número utilizado no WhatsApp. |
-| email | VARCHAR | — | E-mail do cliente. |
+| nome | VARCHAR(100) | NOT NULL | Nome do cliente. |
+| cpf | CHAR(11) | aceita NULL, UNIQUE | CPF do cliente, quando informado. |
+| rg | VARCHAR(25) | aceita NULL | Documento de identidade do cliente. |
+| data_nascimento | DATE | aceita NULL | Data de nascimento do cliente. |
+| endereco | VARCHAR(200) | aceita NULL | Endereço do cliente. |
+| telefone | VARCHAR(25) | aceita NULL | Telefone para contato. |
+| whatsapp | VARCHAR(25) | aceita NULL | Número utilizado no WhatsApp. |
+| email | VARCHAR(150) | aceita NULL | E-mail do cliente. |
 | data_cadastro | DATE | NOT NULL | Data em que o cliente foi cadastrado. |
 | data_prevista_proxima_compra | DATE | aceita NULL | Previsão da próxima compra. |
 | id_representante | INT | FK, NOT NULL | Representante responsável pelo cliente. Referencia `REPRESENTANTE.id_representante`. |
@@ -550,8 +539,8 @@ Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_categoria | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da categoria. |
-| nome_categoria | VARCHAR | NOT NULL | Nome da categoria comercial, como R30 ou R40. |
-| percentual_desconto_base | FLOAT | NOT NULL | Percentual de desconto-base associado à categoria. |
+| nome_categoria | VARCHAR(80) | NOT NULL, UNIQUE | Nome da categoria comercial, como R30 ou R40. |
+| percentual_desconto_base | DECIMAL(5,2) | NOT NULL, CHECK 0 a 100 | Percentual de desconto-base associado à categoria. |
 
 ### 5.4 QUALIFICACAO
 
@@ -559,8 +548,8 @@ Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo 
 |---|---|---|---|
 | id_qualificacao | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do evento de qualificação. |
 | data_qualificacao | DATE | NOT NULL | Data em que a qualificação ocorreu. |
-| tipo_qualificacao | VARCHAR | NOT NULL | Forma pela qual a qualificação foi alcançada. |
-| valor_base | FLOAT | aceita NULL | Valor relacionado à qualificação, quando aplicável. |
+| tipo_qualificacao | VARCHAR(45) | NOT NULL | Forma pela qual a qualificação foi alcançada. |
+| valor_base | DECIMAL(10,2) | aceita NULL, CHECK ≥ 0 quando informado | Valor relacionado à qualificação, quando aplicável. |
 | id_representante | INT | FK, NOT NULL | Representante que recebeu a qualificação. |
 | id_categoria | INT | FK, NOT NULL | Categoria alcançada na qualificação. |
 | id_treinador | INT | FK, aceita NULL | Representante que atuou como treinador, quando houver. |
@@ -571,9 +560,9 @@ Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo 
 |---|---|---|---|
 | id_ingresso | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do ingresso. |
 | data_ingresso | DATE | NOT NULL | Data de entrada do representante. |
-| valor_kit | FLOAT | NOT NULL | Valor do kit de ingresso. |
-| quantidade_parcelas | INT | NOT NULL | Quantidade de parcelas utilizadas no pagamento. |
-| status_pagamento | VARCHAR | NOT NULL | Situação do pagamento do ingresso. |
+| valor_kit | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Valor do kit de ingresso. |
+| quantidade_parcelas | INT | NOT NULL, CHECK > 0 | Quantidade de parcelas utilizadas no pagamento. |
+| status_pagamento | VARCHAR(45) | NOT NULL | Situação do pagamento do ingresso. |
 | id_representante | INT | FK, NOT NULL, UNIQUE | Representante relacionado ao ingresso. A restrição `UNIQUE` mantém a relação 1:1. |
 
 ### 5.6 ATIVIDADE_MENSAL
@@ -581,27 +570,27 @@ Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_atividade | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do registro mensal. |
-| mes_referencia | INT | NOT NULL, CHECK 1 a 12 | Mês de referência da atividade. |
-| ano_referencia | INT | NOT NULL | Ano de referência. |
-| status_atividade | VARCHAR | NOT NULL | Situação do representante no período. |
+| mes_referencia | TINYINT | NOT NULL, CHECK 1 a 12 | Mês de referência da atividade. |
+| ano_referencia | SMALLINT | NOT NULL | Ano de referência. |
+| status_atividade | VARCHAR(45) | NOT NULL | Situação do representante no período. |
 | id_representante | INT | FK, NOT NULL | Representante avaliado. |
 
-**Restrição prevista:** a combinação `id_representante + mes_referencia + ano_referencia` deverá ser única.
+**Restrição aplicada no SQL:** a combinação `id_representante + mes_referencia + ano_referencia` é única.
 
 ### 5.7 COMISSAO
 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_comissao | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da comissão. |
-| tipo_comissao | VARCHAR | NOT NULL | Modalidade da comissão gerada. |
-| valor_base | FLOAT | NOT NULL | Valor utilizado como base para o cálculo. |
-| percentual | FLOAT | NOT NULL | Percentual aplicado sobre o valor-base. |
+| tipo_comissao | VARCHAR(45) | NOT NULL | Modalidade da comissão gerada. |
+| valor_base | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Valor utilizado como base para o cálculo. |
+| percentual | DECIMAL(5,2) | NOT NULL, CHECK 0 a 100 | Percentual aplicado sobre o valor-base. |
 | data_geracao | DATE | NOT NULL | Data em que a comissão foi gerada. |
-| status | VARCHAR | NOT NULL | Situação da comissão. |
+| status | VARCHAR(45) | NOT NULL | Situação da comissão. |
 | data_pagamento | DATE | aceita NULL | Data em que a comissão foi efetivamente paga. |
 | id_representante | INT | FK, NOT NULL | Representante beneficiário da comissão. |
 
-**Observação:** `valor_comissao` não é armazenado no modelo lógico. O valor será calculado a partir de `valor_base` e `percentual` quando necessário.
+**Observação:** `valor_comissao` não é armazenado no modelo lógico. O valor é calculado a partir de `valor_base` e `percentual` quando necessário.
 
 ### 5.8 VISITA
 
@@ -609,7 +598,7 @@ Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo 
 |---|---|---|---|
 | id_visita | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da visita. |
 | data_visita | DATE | NOT NULL | Data em que a visita ocorreu. |
-| observacoes | VARCHAR | aceita NULL | Observações do acompanhamento. |
+| observacoes | TEXT | aceita NULL | Observações do acompanhamento. |
 | data_proxima_visita | DATE | aceita NULL | Previsão do próximo contato. |
 | id_cliente | INT | FK, NOT NULL | Cliente que recebeu a visita. |
 
@@ -618,10 +607,10 @@ Nesta Entrega 2, o dicionário de dados foi atualizado para acompanhar o modelo 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_condicao | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da condição. |
-| nome_condicao | VARCHAR | NOT NULL | Nome ou identificação da condição de saúde. |
+| nome_condicao | VARCHAR(120) | NOT NULL | Nome ou identificação da condição de saúde. |
 | data_inicio_sintomas | DATE | aceita NULL | Data aproximada de início dos sintomas. |
 | data_diagnostico | DATE | aceita NULL | Data do diagnóstico, quando conhecida. |
-| historico_doenca | VARCHAR | aceita NULL | Histórico relacionado à condição. |
+| historico_doenca | TEXT | aceita NULL | Histórico relacionado à condição. |
 | id_cliente | INT | FK, NOT NULL | Cliente ao qual a condição pertence. |
 
 Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN e passaram a possuir registros próprios.
@@ -631,7 +620,7 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_condicao_sintoma | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do sintoma registrado. |
-| sintoma | VARCHAR | NOT NULL | Sintoma relacionado à condição. |
+| sintoma | VARCHAR(120) | NOT NULL | Sintoma relacionado à condição. |
 | id_condicao | INT | FK, NOT NULL | Condição de saúde à qual o sintoma pertence. |
 
 ### 5.11 CONDICAO_MEDICAMENTO
@@ -639,7 +628,7 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_condicao_medicamento | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do medicamento registrado. |
-| medicamento | VARCHAR | NOT NULL | Medicamento relacionado à condição. |
+| medicamento | VARCHAR(120) | NOT NULL | Medicamento relacionado à condição. |
 | id_condicao | INT | FK, NOT NULL | Condição de saúde à qual o medicamento está relacionado. |
 
 ### 5.12 CONDICAO_ALERGIA
@@ -647,7 +636,7 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_condicao_alergia | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da alergia registrada. |
-| alergia | VARCHAR | NOT NULL | Alergia informada. |
+| alergia | VARCHAR(120) | NOT NULL | Alergia informada. |
 | id_condicao | INT | FK, NOT NULL | Condição de saúde à qual a informação está relacionada. |
 
 ### 5.13 PEDIDO
@@ -655,10 +644,10 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_pedido | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do pedido. |
-| numero_pedido | VARCHAR | UNIQUE, NOT NULL | Número comercial utilizado para identificar o pedido. |
+| numero_pedido | VARCHAR(45) | NOT NULL, UNIQUE | Número comercial utilizado para identificar o pedido. |
 | data_pedido | DATE | NOT NULL | Data de realização do pedido. |
-| frete | FLOAT | aceita NULL | Valor do frete, quando houver. |
-| status_pedido | VARCHAR | NOT NULL | Situação atual do pedido. |
+| frete | DECIMAL(10,2) | NOT NULL, DEFAULT 0.00, CHECK ≥ 0 | Valor do frete, quando houver. |
+| status_pedido | VARCHAR(45) | NOT NULL | Situação atual do pedido. |
 | id_representante | INT | FK, NOT NULL | Representante responsável pelo pedido. |
 
 ### 5.14 PAGAMENTO_PEDIDO
@@ -667,8 +656,8 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 |---|---|---|---|
 | id_pagamento_pedido | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do pagamento. |
 | data_pagamento | DATE | NOT NULL | Data do pagamento. |
-| valor | FLOAT | NOT NULL | Valor pago naquele registro. |
-| forma_pagamento | VARCHAR | NOT NULL | Forma utilizada para o pagamento. |
+| valor | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Valor pago naquele registro. |
+| forma_pagamento | VARCHAR(45) | NOT NULL | Forma utilizada para o pagamento. |
 | id_pedido | INT | FK, NOT NULL | Pedido ao qual o pagamento pertence. |
 
 ### 5.15 PRODUTO
@@ -676,20 +665,22 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_produto | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do produto. |
-| nome_produto | VARCHAR | NOT NULL | Nome do produto comercializado. |
-| preco_tabela | FLOAT | NOT NULL | Preço de tabela atual do produto. |
+| nome_produto | VARCHAR(120) | NOT NULL | Nome do produto comercializado. |
+| preco_tabela | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Preço de tabela atual do produto. |
 
 ### 5.16 LOTE
 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_lote | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do lote. |
-| numero_lote | VARCHAR | NOT NULL | Número de identificação do lote. |
+| numero_lote | VARCHAR(45) | NOT NULL | Número de identificação do lote. |
 | data_fabricacao | DATE | NOT NULL | Data de fabricação. |
-| data_validade | DATE | NOT NULL | Data de validade. |
+| data_validade | DATE | NOT NULL, CHECK > data_fabricacao | Data de validade. |
 | id_produto | INT | FK, NOT NULL | Produto ao qual o lote pertence. |
 
-**Restrição prevista:** `data_validade` deverá ser posterior à `data_fabricacao`.
+**Restrição aplicada no SQL:** `data_validade` é posterior à `data_fabricacao`.
+
+**Restrição aplicada no SQL:** a combinação `numero_lote + id_produto` é única.
 
 ### 5.17 VENDA
 
@@ -705,8 +696,8 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 |---|---|---|---|
 | id_pagamento_venda | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do pagamento. |
 | data_pagamento | DATE | NOT NULL | Data em que o pagamento ocorreu. |
-| valor | FLOAT | NOT NULL | Valor recebido naquele registro. |
-| forma_pagamento | VARCHAR | NOT NULL | Forma utilizada no pagamento. |
+| valor | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Valor recebido naquele registro. |
+| forma_pagamento | VARCHAR(45) | NOT NULL | Forma utilizada no pagamento. |
 | id_venda | INT | FK, NOT NULL | Venda à qual o pagamento pertence. |
 
 ### 5.19 FORNECEDOR
@@ -714,19 +705,19 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_fornecedor | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único do fornecedor. |
-| cnpj | VARCHAR | UNIQUE, NOT NULL | CNPJ do fornecedor. |
-| razao_social | VARCHAR | NOT NULL | Razão social. |
-| nome_fantasia | VARCHAR | aceita NULL | Nome fantasia. |
-| endereco | VARCHAR | — | Endereço comercial. |
-| data_abertura | DATE | — | Data de abertura da empresa. |
-| contato_responsavel | VARCHAR | — | Pessoa de contato no fornecedor. |
-| telefone | VARCHAR | — | Telefone comercial. |
-| whatsapp | VARCHAR | — | WhatsApp comercial. |
-| email | VARCHAR | — | E-mail comercial. |
-| website | VARCHAR | aceita NULL | Site do fornecedor, quando houver. |
-| status_anvisa | VARCHAR | aceita NULL | Situação relacionada à ANVISA, quando aplicável. |
+| cnpj | CHAR(14) | NOT NULL, UNIQUE | CNPJ do fornecedor. |
+| razao_social | VARCHAR(150) | NOT NULL | Razão social. |
+| nome_fantasia | VARCHAR(150) | aceita NULL | Nome fantasia. |
+| endereco | VARCHAR(200) | aceita NULL | Endereço comercial. |
+| data_abertura | DATE | aceita NULL | Data de abertura da empresa. |
+| contato_responsavel | VARCHAR(100) | aceita NULL | Pessoa de contato no fornecedor. |
+| telefone | VARCHAR(25) | aceita NULL | Telefone comercial. |
+| whatsapp | VARCHAR(25) | aceita NULL | WhatsApp comercial. |
+| email | VARCHAR(150) | aceita NULL | E-mail comercial. |
+| website | VARCHAR(150) | aceita NULL | Site do fornecedor, quando houver. |
+| status_anvisa | VARCHAR(45) | aceita NULL | Situação relacionada à ANVISA, quando aplicável. |
 | data_anvisa | DATE | aceita NULL | Data relacionada à verificação da situação na ANVISA. |
-| status_vigilancia_sanitaria | VARCHAR | aceita NULL | Situação perante a Vigilância Sanitária. |
+| status_vigilancia_sanitaria | VARCHAR(45) | aceita NULL | Situação perante a Vigilância Sanitária. |
 | data_inicio_vigilancia | DATE | aceita NULL | Data inicial da situação sanitária. |
 | data_validade_vigilancia | DATE | aceita NULL | Validade da documentação sanitária. |
 | prazo_entrega | INT | aceita NULL | Prazo esperado para entrega, em dias. |
@@ -738,10 +729,10 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 | Atributo | Tipo | Chave / Restrição | Descrição |
 |---|---|---|---|
 | id_forma_pagamento | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da forma de pagamento cadastrada. |
-| forma_pagamento | VARCHAR | NOT NULL | Forma de pagamento aceita pelo fornecedor. |
+| forma_pagamento | VARCHAR(45) | NOT NULL | Forma de pagamento aceita pelo fornecedor. |
 | id_fornecedor | INT | FK, NOT NULL | Fornecedor relacionado. |
 
-**Restrição prevista:** a combinação `id_fornecedor + forma_pagamento` deverá ser única.
+**Restrição aplicada no SQL:** a combinação `id_fornecedor + forma_pagamento` é única.
 
 ### 5.21 QUALIFICACAO_FORNECEDOR
 
@@ -749,8 +740,8 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 |---|---|---|---|
 | id_qualificacao_fornecedor | INT | PK, NOT NULL, AUTO_INCREMENT | Identificador único da avaliação. |
 | data_qualificacao | DATE | NOT NULL | Data da avaliação. |
-| status | VARCHAR | NOT NULL | Resultado ou situação da avaliação. |
-| observacao | VARCHAR | aceita NULL | Observações sobre a qualificação. |
+| status | VARCHAR(45) | NOT NULL | Resultado ou situação da avaliação. |
+| observacao | VARCHAR(250) | aceita NULL | Observações sobre a qualificação. |
 | id_fornecedor | INT | FK, NOT NULL | Fornecedor avaliado. |
 
 ### 5.22 PEDIDO_PRODUTO
@@ -759,9 +750,9 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 |---|---|---|---|
 | id_pedido | INT | PK composta, FK, NOT NULL | Pedido relacionado. |
 | id_produto | INT | PK composta, FK, NOT NULL | Produto relacionado. |
-| quantidade | INT | NOT NULL, maior que 0 | Quantidade do produto no pedido. |
-| valor_unitario | FLOAT | NOT NULL, não negativo | Valor unitário considerado no pedido. |
-| desconto_item | FLOAT | padrão 0 / não negativo | Desconto aplicado ao produto no pedido. |
+| quantidade | INT | NOT NULL, CHECK > 0 | Quantidade do produto no pedido. |
+| valor_unitario | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Valor unitário considerado no pedido. |
+| desconto_item | DECIMAL(10,2) | NOT NULL, DEFAULT 0.00, CHECK ≥ 0 | Desconto aplicado ao produto no pedido. |
 
 ### 5.23 PEDIDO_LOTE
 
@@ -769,7 +760,7 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 |---|---|---|---|
 | id_pedido | INT | PK composta, FK, NOT NULL | Pedido relacionado. |
 | id_lote | INT | PK composta, FK, NOT NULL | Lote utilizado. |
-| quantidade_lote | INT | NOT NULL, maior que 0 | Quantidade retirada daquele lote para o pedido. |
+| quantidade_lote | INT | NOT NULL, CHECK > 0 | Quantidade retirada daquele lote para o pedido. |
 
 ### 5.24 VENDA_PRODUTO
 
@@ -777,10 +768,10 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 |---|---|---|---|
 | id_venda | INT | PK composta, FK, NOT NULL | Venda relacionada. |
 | id_produto | INT | PK composta, FK, NOT NULL | Produto relacionado. |
-| quantidade | INT | NOT NULL, maior que 0 | Quantidade vendida. |
-| preco_tabela | FLOAT | NOT NULL, não negativo | Preço de tabela considerado no momento da venda. |
-| preco_vendido | FLOAT | NOT NULL, não negativo | Preço efetivamente praticado. |
-| desconto_aplicado | FLOAT | padrão 0 / não negativo | Desconto aplicado na operação. |
+| quantidade | INT | NOT NULL, CHECK > 0 | Quantidade vendida. |
+| preco_tabela | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Preço de tabela considerado no momento da venda. |
+| preco_vendido | DECIMAL(10,2) | NOT NULL, CHECK ≥ 0 | Preço efetivamente praticado. |
+| desconto_aplicado | DECIMAL(10,2) | NOT NULL, DEFAULT 0.00, CHECK ≥ 0 | Desconto aplicado na operação. |
 
 ### 5.25 FORNECEDOR_PRODUTO
 
@@ -791,11 +782,12 @@ Os sintomas, medicamentos e alergias foram retirados desta tabela durante a 1FN 
 
 ### 5.26 Observação sobre privacidade
 
-Os exemplos de massa de dados utilizados nas próximas etapas serão fictícios. Não serão incluídos nomes, documentos, telefones, endereços ou informações de saúde reais de clientes e representantes no banco utilizado para demonstração do trabalho.
+A massa de dados usada na demonstração é fictícia. Não foram usados nomes, documentos, telefones, endereços ou informações de saúde reais de clientes e representantes.
 
 O arquivo `dicionario/dicionario-dados.html` apresenta esta mesma estrutura atualizada, incluindo tipos, chaves e restrições do modelo lógico.
 
 ---
+
 ## 6. Modelagem Conceitual (Entidades, Atributos, Relacionamentos)
 
 > **Observação:** esta seção registra as decisões do DER conceitual da Entrega 1. Algumas estruturas foram transformadas no modelo lógico da Entrega 2, como a criação das tabelas associativas e a separação de atributos multivalorados durante a normalização.
@@ -813,7 +805,7 @@ Foram identificadas as seguintes entidades principais:
 
 - **CLIENTE:** representa os clientes finais atendidos pelos representantes. Cada cliente permanece sob responsabilidade de um representante por vez.
 
-- **CATEGORIA:** representa as categorias comerciais existentes na rede, como R30 e R40, incluindo o percentual de desconto-base correspondente.
+- **CATEGORIA:** representa as duas condições de desconto usadas no modelo. A entrevista informou 30% e 40%; para facilitar a identificação no banco, o grupo chamou essas condições de R30 e R40.
 
 - **QUALIFICACAO:** representa os eventos de evolução dos representantes entre categorias, permitindo registrar historicamente quando e como cada progressão ocorreu.
 
@@ -1011,7 +1003,7 @@ Os principais relacionamentos definidos no modelo são:
 
 ### 6.4 Restrições e Políticas Aplicadas ao Modelo
 
-Durante a construção do modelo conceitual foram adotadas algumas decisões com o objetivo de preservar a consistência e reduzir redundâncias.
+Durante a construção do modelo conceitual, o grupo tomou algumas decisões para evitar informações repetidas e manter os dados consistentes.
 
 #### Um representante responsável por vários clientes
 
@@ -1075,13 +1067,13 @@ Relacionamentos que poderiam representar novamente uma informação já obtida p
 
 Por exemplo, a venda foi associada ao cliente, enquanto o representante responsável pelo cliente já é identificado pelo relacionamento RESPONSAVEL_POR.
 
-Essa decisão foi adotada para reduzir redundâncias no modelo conceitual.
+Escolhemos essa forma para não repetir a mesma informação no modelo conceitual.
 
 #### Preservação de informações históricas
 
 Qualificações, atividades mensais, pagamentos, visitas, comissões e qualificações de fornecedores foram modelados de forma a permitir a manutenção do histórico das operações.
 
-Essa escolha contribui para rastreabilidade e reduz a necessidade de substituir informações antigas por estados atuais.
+Com isso, conseguimos manter o histórico sem precisar apagar uma informação antiga para colocar a nova.
 
 ---
 ## 7. Diagrama Entidade-Relacionamento (DER)
@@ -1101,7 +1093,7 @@ O modelo foi elaborado com preocupação em manter consistência, rastreabilidad
 
 A construção do modelo conceitual da Trattos foi orientada pelo levantamento realizado junto à organização, pelas regras de negócio identificadas e pelos princípios de modelagem conceitual estudados na disciplina.
 
-Durante o desenvolvimento, buscou-se representar os fatos relevantes da operação sem antecipar estruturas próprias do modelo lógico e evitando redundâncias que pudessem gerar inconsistências futuras.
+Durante o desenvolvimento, o grupo procurou representar os fatos mais importantes da operação sem colocar no DER estruturas que pertencem ao modelo lógico. Também revisamos relações que poderiam gerar informações repetidas.
 
 ### 8.1 Separação das principais entidades
 
@@ -1132,7 +1124,7 @@ A cardinalidade adotada foi:
 - um REPRESENTANTE pode ser responsável por zero ou vários CLIENTES;
 - cada CLIENTE deve possuir exatamente um REPRESENTANTE responsável por vez.
 
-O mínimo zero do lado do representante foi utilizado porque um representante pode existir no sistema antes de possuir clientes sob sua responsabilidade.
+Usamos mínimo zero do lado do representante porque ele pode estar cadastrado antes de possuir clientes sob sua responsabilidade.
 
 Já o cliente possui participação obrigatória e única nessa relação, de acordo com a regra informada pela organização.
 
@@ -1161,9 +1153,9 @@ Foram criadas as entidades CATEGORIA e QUALIFICACAO para permitir que a evoluç�
 
 Cada QUALIFICACAO pertence a um representante e se destina a uma categoria.
 
-A cardinalidade mínima de um na participação do REPRESENTANTE em POSSUI_QUALIFICACAO foi adotada porque todo representante ingressa na empresa com uma classificação inicial, normalmente R30.
+No modelo do grupo, a qualificação inicial foi usada para representar a condição de 30% informada na entrevista. Por isso, a participação do representante nesse histórico foi tratada como obrigatória.
 
-Essa estrutura possibilita registrar posteriormente a passagem para R40 sem substituir ou apagar o registro anterior.
+Assim, quando o representante passa para a condição de 40% (R40 no modelo), o registro anterior continua guardado.
 
 ### 8.5 Distinção entre patrocinador e treinador
 
@@ -1185,7 +1177,7 @@ Informações como valor do kit, número de parcelas, data e situação do pagam
 
 ### 8.7 Categoria e atividade mensal são conceitos diferentes
 
-ATIVIDADE_MENSAL foi mantida separada de CATEGORIA.
+Mantivemos `ATIVIDADE_MENSAL` separada de `CATEGORIA`.
 
 A categoria representa uma condição comercial alcançada pelo representante, enquanto a atividade mensal representa sua situação em determinado período.
 
@@ -1197,7 +1189,7 @@ COMISSAO foi modelada separadamente porque os percentuais e valores não são ca
 
 As comissões dependem das regras e dos eventos que as originaram.
 
-Por esse motivo, não foi utilizado um atributo `percentual_comissao` em REPRESENTANTE.
+Por isso, não colocamos um `percentual_comissao` fixo dentro de `REPRESENTANTE`.
 
 Cada registro de COMISSAO possui seu beneficiário, tipo, valor-base, percentual, data e situação. O valor final é calculado quando necessário a partir do valor-base e do percentual.
 
@@ -1207,7 +1199,7 @@ Essa decisão também permite que um mesmo evento resulte em lançamentos difere
 
 Foi considerada inicialmente a possibilidade de criar uma entidade intermediária ITEM_PEDIDO.
 
-Entretanto, no modelo conceitual foi adotado um relacionamento direto N:N entre PEDIDO e PRODUTO, denominado CONTEM.
+No DER conceitual, o grupo preferiu representar PEDIDO e PRODUTO com o relacionamento N:N `CONTEM`.
 
 Os dados que dependem da combinação entre pedido e produto, como:
 
@@ -1221,9 +1213,9 @@ Essa alternativa representa diretamente o fato de negócio no nível conceitual 
 
 ### 8.10 Venda e produto sem ITEM_VENDA
 
-O mesmo princípio foi utilizado na relação entre VENDA e PRODUTO.
+Usamos a mesma ideia na relação entre VENDA e PRODUTO.
 
-Em vez de criar ITEM_VENDA, foi utilizado o relacionamento INCLUI.
+Em vez de criar `ITEM_VENDA` no DER, usamos o relacionamento `INCLUI`.
 
 Os atributos:
 
@@ -1270,7 +1262,7 @@ O mínimo zero também permite registrar uma operação antes de seu pagamento e
 
 VISITA foi criada como entidade por representar um acontecimento histórico associado ao cliente, contendo data, observações e previsão de próximo contato.
 
-Não foi criada uma ligação adicional entre VISITA e REPRESENTANTE, pois o modelo já possui a relação de responsabilidade entre representante e cliente e buscou-se evitar um ciclo redundante no modelo conceitual desta etapa.
+Não ligamos VISITA diretamente a REPRESENTANTE porque o cliente já possui um representante responsável. Assim evitamos repetir a mesma informação no DER.
 
 CONDICAO_SAUDE também foi mantida como entidade, pois um cliente pode possuir várias condições diferentes, cada uma com informações próprias de diagnóstico, sintomas e histórico.
 
@@ -1311,7 +1303,7 @@ Exemplos:
 - cada pagamento pertence a exatamente uma operação;
 - cada cliente possui exatamente um representante responsável.
 
-Dessa forma, as cardinalidades não foram definidas por padrão, mas a partir das regras identificadas na organização.
+Por isso, as cardinalidades foram escolhidas caso a caso, de acordo com o que o grupo precisava representar.
 
 ### 8.16 Redução de redundâncias
 
@@ -1874,4 +1866,4 @@ O modelo proposto organiza essas informações em uma estrutura relacional, pres
 
 Além de atender à implementação acadêmica em MySQL, a estrutura criada pode servir como base para evoluções futuras, como um escritório virtual para representantes, dashboards de BI e aplicações analíticas apoiadas por Inteligência Artificial.
 
-O desenvolvimento também evidenciou a importância de manter coerência entre entrevista, regras de negócio, DER, modelo lógico, dicionário de dados e script SQL. Cada etapa foi revisada para reduzir divergências e evitar a inclusão de informações que não pudessem ser justificadas pelo levantamento ou pelo modelo.
+Durante o trabalho, percebemos que era importante manter o DER, o modelo lógico, o dicionário e o SQL seguindo a mesma estrutura. Por isso, revisamos os artefatos em conjunto e evitamos tratar como fato da empresa aquilo que não tinha sido confirmado no levantamento.
