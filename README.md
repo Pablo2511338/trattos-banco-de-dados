@@ -1,14 +1,12 @@
-# Entrega 2 — Modelo Lógico
+# Trattos — Modelagem de Banco de Dados
+
+**Entrega 2 — Modelo Lógico, Implementação SQL e Apresentação Final**
 
 ## Integrantes
 
 - Breno Troillo Carvalho — RGM: 4797955
 - Pablo Ferreira Dos Reis — RGM: 48075353
 - Vitoria Rodrigues Alves — RGM: 49993526
-
-# Trattos — Modelagem de Banco de Dados
-
-**Entrega 2 — Modelo Lógico, Implementação SQL e Apresentação Final**
 
 ---
 
